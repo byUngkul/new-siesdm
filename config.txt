@@ -1,0 +1,28 @@
+// configurasi xampp
+1. Buka file hosts (X:WINDOWS/system32/drivers/etc/hosts) 
+tambahkan domain examp:
+
+127.0.0.1       jurnalweblokal.com
+localhost		myapp.ku
+
+2. backup dan ubah httpd-vhost.conf di (X:XAMPP/apache/conf/extra) 
+
+tambahkan 
+
+<VirtualHost *:80>
+ServerAdmin admin@jurnalweblokal.com
+DocumentRoot "C:\xampp\htdocs\jurnalweblokal.com\public"
+ServerName jurnalweblokal.com
+ServerAlias jurnalweblokal.com
+ErrorLog logs/jurnalweblokal.com.log
+CustomLog logs/jurnalweblokal.com.log combined
+<Directory "C:\xampp\htdocs\jurnalweblokal.com\public">
+    Options Indexes FollowSymLinks Includes ExecCGI
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Require all granted
+</Directory>
+</VirtualHost>
+
+* Untuk domain lainnya maka buat blok <VirtualHost *:80> baru
