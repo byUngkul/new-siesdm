@@ -1,3 +1,12 @@
+<?php if ($this->session->flashdata('success')): ?>
+<div class="col-xs-6">
+  <div class="callout callout-info">
+      <h4>Berhasil !</h4>
+      <p><?php echo $this->session->flashdata('success'); ?></p>
+  </div>
+</div>
+<?php endif; ?>
+
 <section class="content">
   <div class="row">
     <div class="col-xs-12">
@@ -174,7 +183,7 @@
               <td>
                 <div class="row">
                   <div class="col-xs-3">
-                    <input type="file" name="uji_air" class="form-control-file">
+                    <input type="file" name="hasil_uji_air" class="form-control-file">
                   </div>
                 </div>
               </td>

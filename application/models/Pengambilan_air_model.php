@@ -164,4 +164,8 @@ class Pengambilan_air_model extends CI_Model{
 		//var_dump($post);
 		$this->db->update('t_ambil_air', $data, array('id_trx' => $post["id_trx"]));
 	}
+
+	public function delete($id_trx){
+		return $this->db->delete('t_ambil_air', array('id_trx' => $id_trx));
+	}
 }

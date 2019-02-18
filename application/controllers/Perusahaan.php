@@ -100,6 +100,7 @@ class Perusahaan extends CI_Controller{
 
 	public function save(){
 		$this->prs->add();
+		$this->session->set_flashdata('success', 'Data berhasil di simpan!');
 		redirect('perusahaan/add');
 	}
 
@@ -119,7 +120,8 @@ class Perusahaan extends CI_Controller{
 
 	public function update(){
 		$this->prs->update();
-		//redirect('perusahaan');
+		$this->session->set_flashdata('success', 'Data berhasil di ubah!');
+		redirect('perusahaan');
 	}
 
 	public function delete($id_perusahaan = null)
@@ -127,6 +129,7 @@ class Perusahaan extends CI_Controller{
         if(!isset($id_perusahaan)) show_404();
 
     	if ($this->prs->delete($id_perusahaan)) {
+			$this->session->set_flashdata('danger', 'Data berhasil di hapus!');
     		redirect('perusahaan');
     	}
     }

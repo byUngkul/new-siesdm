@@ -1,3 +1,14 @@
+
+<?php if ($this->session->flashdata('success')): ?>
+<div class="col-xs-6">
+  <div class="callout callout-info">
+      <h4>Berhasil !</h4>
+      <p><?php echo $this->session->flashdata('success'); ?></p>
+  </div>
+</div>
+<?php endif; ?>
+
+
 <section class="content">
   <div class="row">
     <div class="col-xs-12">
@@ -6,7 +17,6 @@
       <div class="box-header with-border">
         <h3 class="box-title">Tambah Data Pajak</h3>
       </div>
-      
       <!-- form start -->
       <form action="<?php echo base_url('pajak/save'); ?>" class="form-horizontal" method="post">
         <div class="box-body">

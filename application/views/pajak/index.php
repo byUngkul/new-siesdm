@@ -1,3 +1,20 @@
+<!-- notifikasi -->
+<?php if ($this->session->flashdata('success')): ?>
+<div class="col-xs-6">
+  <div class="callout callout-info">
+      <h4>Berhasil !</h4>
+      <p><?php echo $this->session->flashdata('success'); ?></p>
+  </div>
+</div>
+<?php elseif($this->session->flashdata('danger')): ?>
+<div class="col-xs-6">
+  <div class="callout callout-danger">
+      <h4>Berhasil !</h4>
+      <p><?php echo $this->session->flashdata('danger'); ?></p>
+  </div>
+</div>
+<?php endif; ?>
+
   <section class="content">
     <div class="row">
       <div class="col-sm-12">
@@ -99,10 +116,7 @@
                           <li><a type="button" class="btn btn-social btn-flat btn-sm" target="_blank" href="<?php echo $url_excel; ?>"><i class="fa fa-file-excel-o"></i>Cetak ke Excel</a></li>
                       </ul>
                 </div>
-                
-                
-                
-
+          
               </form>
             </div>
             <!-- /.box-header -->

@@ -244,6 +244,7 @@ class Sumur_model extends CI_Model{
 
 	public function add(){ // tambah data sumur
 		$post = $this->input->post();
+		$val = uniqid();
 		//echo json_encode($post);
 		if (count($post) > 0) {
 				$data = array(
@@ -253,14 +254,14 @@ class Sumur_model extends CI_Model{
 					'no_sumur'        => strtoupper($post["no_sumur"]),
 					'status_izin'     => $post["stauts_izin"],
 					'no_sipa'         => $post["no_sipa"],
-					'sipa'            => $this->_upload('./uploads/sipa/', 'pdf|doc|docx', 'SIPA_'.$post["no_sipa"], 'file_sipa'),
+					'sipa'            => $this->_upload('./uploads/sipa/', 'pdf|doc|docx', 'SIPA_'.$val, 'file_sipa'),
 					'tgl_terbit_sipa' => date('Y-m-d', strtotime($post["tgl_terbit_sipa"])),
 					'tgl_ahir_sipa'   => date('Y-m-d', strtotime($post["tgl_ahir_sipa"])),
 					'lokasi_sumur'    => strtoupper($post["lokasi_sumur"]),
-					'poto_sumur'      => $this->_upload('./uploads/poto_sumur/', 'jpg|jpeg|png', 'IMG_'.$post["no_sipa"], 'poto_sumur'),
-					'peta_lok'        => $this->_upload('./uploads/peta_sumur/', 'pdf|doc|docx|jpg|jpeg|png', 'PETA_'.$post["no_sipa"], 'peta_lok'),
+					'poto_sumur'      => $this->_upload('./uploads/poto_sumur/', 'jpg|jpeg|png', 'IMG_'.$val, 'poto_sumur'),
+					'peta_lok'        => $this->_upload('./uploads/peta_sumur/', 'pdf|doc|docx|jpg|jpeg|png', 'PETA_'.$val, 'peta_lok'),
 					'hasil_uji_air'   => 
-							$this->_upload('./uploads/uji_air/', 'pdf|doc|docx|jpg|jpeg|png', 'UJI_'.$post["no_sipa"], 'hasil_uji_air'),
+							$this->_upload('./uploads/uji_air/', 'pdf|doc|docx|jpg|jpeg|png', 'UJI_'.$val, 'hasil_uji_air'),
 					'kedalaman_sumur' => $post["kedalaman_sumur"],
 					'debit_izin'      => $post["debit_izin"],
 					'material_pipa'   => strtoupper($post["material_pipa"]),
@@ -276,7 +277,7 @@ class Sumur_model extends CI_Model{
 					'no_meter_air'    => $post["no_meter_air"],
 					'angka_awal'      => $post["angka_awal"],
 					'no_tera'         => $post["no_tera"],
-					'tera_meter'      => $this->_upload('./uploads/tera_meter/', 'pdf|doc|docx|jpg|jpeg|png', 'TERA_'.$post["no_tera"], 'tera'),
+					'tera_meter'      => $this->_upload('./uploads/tera_meter/', 'pdf|doc|docx|jpg|jpeg|png', 'TERA_'.$val, 'tera'),
 					'tgl_tera'        => date('Y-m-d', strtotime($post["tgl_tera"])),
 					'tgl_ahir_tera'   => date('Y-m-d',strtotime($post["tgl_ahir_tera"])),
 					'koor_d_ls'       => $post["koor_d_ls"],
@@ -286,13 +287,14 @@ class Sumur_model extends CI_Model{
 					'koor_m_bt'       => $post["koor_m_bt"],
 					'koor_s_bt'       => $post["koor_s_bt"]
 					);
-				echo json_encode($data);
-				//$this->db->insert('t_sumur', $data);
+				//echo json_encode($data);
+				$this->db->insert('t_sumur', $data);
 				}//echo json_encode($data);
 	}
 
 	public function update(){ // update data sumur
 		$post = $this->input->post();
+		$val = uniqid();
 		//echo json_encode($post);
 		$data = array(
 			'id_sumur'        => $post["id_sumur"],
@@ -301,14 +303,14 @@ class Sumur_model extends CI_Model{
 			'id_zona'         => $post["id_zona"],
 			'no_sumur'        => strtoupper($post["no_sumur"]),
 			'no_sipa'         => $post["no_sipa"],
-			'sipa'            => $this->_upload('./uploads/sipa/', 'pdf|doc|docx', 'SIPA_'.$post["id_sumur"], 'file_sipa', $post["id_sumur"], 'sipa'),
+			'sipa'            => $this->_upload('./uploads/sipa/', 'pdf|doc|docx', 'SIPA_'.$val, 'file_sipa', $post["id_sumur"], 'sipa'),
 			'status_izin'     => $post["status_izin"],
 			'tgl_terbit_sipa' => date('Y-m-d', strtotime($post["tgl_terbit_sipa"])),
 			'tgl_ahir_sipa'   => date('Y-m-d', strtotime($post["tgl_ahir_sipa"])),
 			'lokasi_sumur'    => strtoupper($post["lokasi_sumur"]),
-			'poto_sumur'      => $this->_upload('./uploads/poto_sumur/', 'pdf|jpg|jpeg|png', 'IMG_'.$post["id_sumur"], 'poto_sumur', $post["id_sumur"], 'poto_sumur'),
-			'peta_lok'        => $this->_upload('./uploads/peta_sumur/', 'pdf|doc|docx|jpg|jpeg|png', 'PETA_'.$post["id_sumur"], 'peta_lok', $post["id_sumur"], 'peta_lok'),
-			'hasil_uji_air'   => $this->_upload('./uploads/uji_air/', 'pdf|doc|docx|jpg|jpeg|png', 'UJI_AIR_'.$post["id_sumur"], 'hasil_uji_air', $post["id_sumur"], 'hasil_uji_air'),
+			'poto_sumur'      => $this->_upload('./uploads/poto_sumur/', 'pdf|jpg|jpeg|png', 'IMG_'.$val, 'poto_sumur', $post["id_sumur"], 'poto_sumur'),
+			'peta_lok'        => $this->_upload('./uploads/peta_sumur/', 'pdf|doc|docx|jpg|jpeg|png', 'PETA_'.$val, 'peta_lok', $post["id_sumur"], 'peta_lok'),
+			'hasil_uji_air'   => $this->_upload('./uploads/uji_air/', 'pdf|doc|docx|jpg|jpeg|png', 'UJI_AIR_'.$val, 'hasil_uji_air', $post["id_sumur"], 'hasil_uji_air'),
 			'kedalaman_sumur' => $post["kedalaman_sumur"],
 			'debit_izin'      => $post["debit_izin"],
 			'material_pipa'   => strtoupper($post["material_pipa"]),
@@ -324,7 +326,7 @@ class Sumur_model extends CI_Model{
 			'no_meter_air'    => $post["no_meter_air"],
 			'angka_awal'      => $post["angka_awal"],
 			'no_tera'         => $post["no_tera"],
-			'tera_meter'      => $this->_upload('./uploads/tera_meter/', 'pdf|doc|docx|jpg|jpeg|png', 'TERA_'.$post["id_sumur"], 'tera', $post["id_sumur"], 'tera_meter'),
+			'tera_meter'      => $this->_upload('./uploads/tera_meter/', 'pdf|doc|docx|jpg|jpeg|png', 'TERA_'.$val, 'tera', $post["id_sumur"], 'tera_meter'),
 			'tgl_tera'        => date('Y-m-d', strtotime($post["tgl_tera"])),
 			'tgl_ahir_tera'   => date('Y-m-d',strtotime($post["tgl_ahir_tera"])),
 			'koor_d_ls'       => $post["koor_d_ls"],

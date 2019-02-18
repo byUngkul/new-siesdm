@@ -318,7 +318,8 @@ class Sumur extends CI_Controller{
 
 	public function save(){
 		$this->sumur->add();
-		//redirect('sumur/add');	
+		$this->session->set_flashdata('success', 'Data berhasil di simpan!');
+		redirect('sumur/add');	
 	}
 
 	public function edit($id_sumur = null){
@@ -337,12 +338,14 @@ class Sumur extends CI_Controller{
 	} 
 
 	public function update(){
-		$this->sumur->update(); 
+		$this->sumur->update();
+		$this->session->set_flashdata('success', 'Data berhasil di ubah!'); 
 		redirect('sumur');	
 	}
 
 	public function delete($id_sumur = ''){
 		if ($this->sumur->delete($id_sumur)) {
+			$this->session->set_flashdata('danger', 'Data berhasil di hapus!');
 			redirect('sumur');
 		}
 	}

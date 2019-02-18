@@ -350,7 +350,8 @@ class Pajak extends CI_Controller{
 
 	public function save(){
 		$this->pajak_model->save();
-
+		$this->session->set_flashdata('success', 'Data berhasil di simpan!');
+		
 		redirect('pajak/add');
 	}
 
@@ -371,6 +372,7 @@ class Pajak extends CI_Controller{
 
 	public function update(){
 		$this->pajak_model->update();
+		$this->session->set_flashdata('success', 'Data berhasil di ubah!');
 		redirect('pajak');
 	}
 
@@ -379,6 +381,7 @@ class Pajak extends CI_Controller{
         if(!isset($id_pjk)) show_404();
 
     	if ($this->pajak_model->delete($id_pjk)) {
+			$this->session->set_flashdata('danger', 'Data berhasil di hapus!');
     		redirect('pajak');
     	}
     }

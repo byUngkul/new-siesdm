@@ -48,6 +48,9 @@
     // input mask
     $('[data-mask]').inputmask();
 
+    // notifikasi
+    $('.callout').slideDown('slow').delay(3000).slideUp('slow');
+
     //Initialize Select2 Elements
     $('.select2').select2();
     $('.select1').select2({

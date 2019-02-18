@@ -211,6 +211,7 @@ class Pengambilan_air extends CI_Controller{
 
 	public function save(){
 		$this->ambil_air->save();
+		$this->session->set_flashdata('success', 'Data berhasil di simpan!');
 
 		redirect('pengambilan_air/add');
 	}
@@ -232,8 +233,19 @@ class Pengambilan_air extends CI_Controller{
 
 	public function update(){
 		$this->ambil_air->update();
+		$this->session->set_flashdata('success', 'Data berhasil di ubah!');
 		redirect('pengambilan_air');
 	}
+
+	public function delete($id_trx = null)
+    {
+        if(!isset($id_trx)) show_404();
+
+    	if ($this->ambil_air->delete($id_trx)) {
+			$this->session->set_flashdata('danger', 'Data berhasil di hapus!');
+    		redirect('pajak');
+    	}
+    }
 
 	public function cetak(){
         if ($this->session->userdata('akses') == '1') {
