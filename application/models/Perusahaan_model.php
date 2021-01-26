@@ -1,105 +1,141 @@
 <?php
+
 /**
  * class model perusahaan
  */
-class Perusahaan_model extends CI_Model{
-	
-	public function tampiPerusahaan(){
-		$this->db->select('t_perusahaan.*, COUNT(t_sumur.id_sumur) AS jmlSumur, t_kota.*');
-		$this->db->from('t_perusahaan');
-		$this->db->join('t_kota', 't_kota.id = t_perusahaan.id_kota', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_perusahaan = t_perusahaan.id_perusahaan', 'left');
-		$this->db->group_by('id_perusahaan');
-		$this->db->order_by('id_kota');
-		
-		//$this->db->where('id_kota', 'KOTA BANDUNG');
-		
-		return $this->db->get()->result();
-	}
+class Perusahaan_model extends CI_Model
+{
 
-	public function ambilPerwilayah($wilayah){
-		$this->db->select('t_perusahaan.*, COUNT(t_sumur.id_sumur) AS jmlSumur, t_kota.*');
-		$this->db->from('t_perusahaan');
-		$this->db->join('t_kota', 't_kota.id = t_perusahaan.id_kota', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_perusahaan = t_perusahaan.id_perusahaan', 'left');
-		$this->db->group_by('id_perusahaan');
-		$this->db->where('t_perusahaan.id_kota', $wilayah);
-		
-		return $this->db->get()->result();
-	}
 
-	public function getWilayah(){
-		return $this->db->get('t_kota')->result();
-	}
+	protected $table = 't_perusahaan p';
+	protected $column_order = array(null, 'nama_perusahaan', 'nama_pemilik', 'jns_usaha', 'alamat_perusahaan', 'nama_kota');
+	protected $column_search = array('nama_perusahaan', 'nama_pemilik', 'nama_kota', 'alamat_perusahaan');
+	protected $order = array('id_perusahaan' => 'asc');
 
-	public function getById($id_perusahaan)
-    {
-        return $this->db->get_where('t_perusahaan', ["id_perusahaan" => $id_perusahaan])->row(); 
-    }
+	public function _get_query_data()
+	{
+		$this->db->from($this->table);
+		$this->db->join('t_kota k', 'p.id_kota = k.id');
+		$i = 0;
 
-	public function tampilById($id_perusahaan){
-		$this->db->select('t_perusahaan.*, COUNT(t_sumur.id_sumur) AS jmlSumur, t_sumur.*, t_kota.*');
-		$this->db->from('t_perusahaan');
-		$this->db->join('t_kota', 't_kota.id = t_perusahaan.id_kota', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_perusahaan = t_perusahaan.id_perusahaan', 'left');
-		$this->db->group_by('nama_perusahaan');
-		$this->db->where('t_perusahaan.id_perusahaan', $id_perusahaan);
-		
-		return $this->db->get()->row();
-	}
+		foreach ($this->column_search as $item) // loop column 
+		{
+			if ($_POST['search']['value']) // if datatable send POST for search
+			{
 
-	public function getJumlahSumur($wilayah){
-		if($wilayah == ''){
-			$this->db->select("t_perusahaan.*, COUNT(t_sumur.id_sumur) AS jmlSumur, COUNT(CASE WHEN id_jenis_sumur='2' THEN 1 END) as sm_dalam, COUNT(CASE WHEN id_jenis_sumur='1' THEN 1 END) as sm_dangkal, COUNT(CASE WHEN id_jenis_sumur='3' THEN 1 END) as sm_imbuhan,COUNT(CASE WHEN id_jenis_sumur='4' THEN 1 END) as sm_pantau, COUNT(CASE WHEN id_jenis_sumur='5' THEN 1 END) as sm_asr, COUNT(CASE WHEN id_jenis_sumur='6' THEN 1 END) as sm_resapan, t_kota.*");
-			$this->db->from('t_perusahaan');
-			$this->db->join('t_kota', 't_kota.id = t_perusahaan.id_kota', 'left');
-			$this->db->join('t_sumur', 't_sumur.id_perusahaan = t_perusahaan.id_perusahaan', 'left');
-			$this->db->group_by('id_perusahaan');
-			$this->db->order_by('id_kota');
-			//$this->db->where('id_kota', $wilayah);
-			
-			return $this->db->get()->result();
-		} else {
-			$this->db->select("t_perusahaan.*, COUNT(t_sumur.id_sumur) AS jmlSumur, COUNT(CASE WHEN id_jenis_sumur='2' THEN 1 END) as sm_dalam, COUNT(CASE WHEN id_jenis_sumur='1' THEN 1 END) as sm_dangkal, COUNT(CASE WHEN id_jenis_sumur='3' THEN 1 END) as sm_imbuhan,COUNT(CASE WHEN id_jenis_sumur='4' THEN 1 END) as sm_pantau, COUNT(CASE WHEN id_jenis_sumur='5' THEN 1 END) as sm_asr, COUNT(CASE WHEN id_jenis_sumur='6' THEN 1 END) as sm_resapan, t_kota.*");
-			$this->db->from('t_perusahaan');
-			$this->db->join('t_kota', 't_kota.id = t_perusahaan.id_kota', 'left');
-			$this->db->join('t_sumur', 't_sumur.id_perusahaan = t_perusahaan.id_perusahaan', 'left');
-			$this->db->group_by('id_perusahaan');
-			$this->db->order_by('id_kota');
-			$this->db->where('id_kota', $wilayah);
-			
-			return $this->db->get()->result();
+				if ($i === 0) {
+					$this->db->group_start();
+					$this->db->like($item, $_POST['search']['value']);
+				} else {
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+
+				if (count($this->column_search) - 1 == $i) {
+					$this->db->group_end();
+				}
+			}
+			$i++;
+		}
+
+		if (isset($_POST['order'])) {
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		} else if (isset($this->order)) {
+			$order = $this->order;
+			$this->db->order_by(key($order), $order[key($order)]);
 		}
 	}
 
-	public function add(){ // menambahkan data perusahaan ke database
+	function get_data()
+	{
+		$this->_get_query_data();
+
+		if ($_POST['length'] != -1) {
+			$this->db->limit($_POST['length'], $_POST['start']);
+		}
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function get_alldata()
+	{
+		return $this->db->get('t_perusahaan');
+	}
+
+	public function get_data_byId($id)
+	{
+		return $this->db
+			->get_where($this->table, ["id_perusahaan" => $id])
+			->row_array();
+	}
+
+	public function get_detile_data($id)
+	{
+		return	$this->db->select('*')->from($this->table)
+			->join('t_kota k', 'p.id_kota = k.id')
+			->where('id_perusahaan', $id)
+			->get()->row_array();
+	}
+
+	function count_filtered()
+	{
+		$this->_get_query_data();
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function count_all()
+	{
+		$this->db->from($this->table);
+		return $this->db->count_all_results();
+	}
+
+	public function add()
+	{
 		$post = $this->input->post();
-		if(count($post) > 0){
-		$data = array(
-			'nama_perusahaan' => strtoupper($post["nama_perusahaan"]),
-			'nama_pemilik' => strtoupper($post["nama_pemilik"]),
-			'jns_usaha' => strtoupper($post["jns_usaha"]),
-			'tlp_perusahaan' => $post["tlp_perusahaan"],
-			'fax_perusahaan' => $post["fax_perusahaan"],
-			'email' => $post["email"],
-			'status_modal' => strtoupper($post["status_modal"]),
-			'kontak_person' => strtoupper($post["kontak_person"]),
-			'tlp_person' => $post["tlp_person"],
-			'luas_area' => $post["luas_area"],
-			'alamat_perusahaan' => strtoupper($post["alamat_perusahaan"]),
-			'id_kota' => $post["id_kota"],
-			'poto_perusahaan' => $this->_upload('./uploads/poto_perusahaan/', 'jpg|jpeg|png', 'IMG_1_'.$post["nama_perusahaan"], 'poto1'),
-			'poto_perusahaan2' => $this->_upload('./uploads/poto_perusahaan/', 'jpg|jpeg|png', 'IMG_2_'.$post["nama_perusahaan"], 'poto2')
-		);
-		//echo json_encode($data);
-		$this->db->insert('t_perusahaan', $data);
+
+		if (count($post) > 0) {
+			$prsh_poto = [];
+			$jml_phto = isset($_FILES['photo']) ? count($_FILES['photo']['name']) : 0;
+
+			if ($jml_phto > 0) {
+				for ($i = 0; $i < $jml_phto; $i++) {
+
+					$file['photo']['name'] = $_FILES['photo']['name'][$i];
+					$file['photo']['type'] = $_FILES['photo']['type'][$i];
+					$file['photo']['tmp_name'] = $_FILES['photo']['tmp_name'][$i];
+					$file['photo']['error'] = $_FILES['photo']['error'][$i];
+					$file['photo']['size'] = $_FILES['photo']['size'][$i];
+
+					$prsh_poto[] = $this->_upload('./uploads/poto_perusahaan/', 'jpg|jpeg|png', 'IMG_' . date('YmdHms') . $i, $file);
+				}
+			}
+
+			$data = array(
+				'nama_perusahaan' => strtoupper($post["nama_perusahaan"]),
+				'nama_pemilik' => strtoupper($post["nama_pemilik"]),
+				'jns_usaha' => strtoupper($post["jns_usaha"]),
+				'tlp_perusahaan' => $post["tlp_perusahaan"],
+				'fax_perusahaan' => $post["fax_perusahaan"],
+				'email' => $post["email"],
+				'status_modal' => $post["status_modal"],
+				'kontak_person' => strtoupper($post["kontak_person"]),
+				'tlp_person' => $post["tlp_person"],
+				'luas_area' => $post["luas_area"],
+				'alamat_perusahaan' => $post["alamat_perusahaan"],
+				'id_kota' => $post["wilayah"],
+				'poto_perusahaan' => json_encode($prsh_poto)
+			);
+
+			$this->db->insert('t_perusahaan', $data);
 		}
 	}
 
-	public function update(){ // update data perusahaan ke database
+	public function update()
+	{
 		$post = $this->input->post();
+
 		$data = array(
-			'id_perusahaan' => $post["id_perusahaan"],
+			// 'id_perusahaan' => $post["id_perusahaan"],
 			'nama_perusahaan' => strtoupper($post["nama_perusahaan"]),
 			'nama_pemilik' => strtoupper($post["nama_pemilik"]),
 			'jns_usaha' => strtoupper($post["jns_usaha"]),
@@ -111,49 +147,56 @@ class Perusahaan_model extends CI_Model{
 			'tlp_person' => $post["tlp_person"],
 			'luas_area' => $post["luas_area"],
 			'alamat_perusahaan' => strtoupper($post["alamat_perusahaan"]),
-			'id_kota' => $post["id_kota"],
-			'poto_perusahaan' => $this->_upload('./uploads/poto_perusahaan/', 'pdf|jpg|jpeg|png', 'IMG_1_'.$post["nama_perusahaan"], 'poto1', $post["id_perusahaan"], 'poto_perusahaan'),
-			'poto_perusahaan2' => $this->_upload('./uploads/poto_perusahaan/', 'pdf|jpg|jpeg|png', 'IMG_2_'.$post["nama_perusahaan"], 'poto2', $post["id_perusahaan"], 'poto_perusahaan2')
+			'id_kota' => $post["wilayah"],
+			// 'poto_perusahaan' => $this->_upload('./uploads/poto_perusahaan/', 'pdf|jpg|jpeg|png', 'IMG_1_' . $post["nama_perusahaan"], 'poto1', $post["id_perusahaan"], 'poto_perusahaan'),
+			// 'poto_perusahaan2' => $this->_upload('./uploads/poto_perusahaan/', 'pdf|jpg|jpeg|png', 'IMG_2_' . $post["nama_perusahaan"], 'poto2', $post["id_perusahaan"], 'poto_perusahaan2')
 		);
-		//echo json_encode($data);
+
 		$this->db->update('t_perusahaan', $data, array('id_perusahaan' => $post["id_perusahaan"]));
 	}
 
-	public function delete($id_perusahaan){
+	public function delete($id_perusahaan)
+	{
 		return $this->db->delete('t_perusahaan', array('id_perusahaan' => $id_perusahaan));
 	}
 
-	public function totolPerusahaan(){
+	public function totolPerusahaan()
+	{
 		return $this->db->get('t_perusahaan')->num_rows();
 	}
 
-	private function _upload($path='', $type='', $filename='', $file='', $id_perusahaan='', $select=''){	
+	private function _upload($path = '', $type = '', $filename = '', $file = '', $id_perusahaan = '', $select = '')
+	{
 		$this->load->library('upload');
-		$name = ''; //variable nama dengan nilai kosong
-		//jika file tidak sama dengan kosong
-		if($file != '')
-		{
-			$zzz['upload_path'] = ($path != '' ? $path : './uploads/sipa/'); 
-			if($type != '') $zzz['allowed_types'] = $type;
-			if($filename != '') $zzz['file_name'] = $filename; 
+		$name = '';
+
+		if ($file != '') {
+			$_FILES['file']['type'] = $file['photo']['type'];
+			$_FILES['file']['tmp_name'] = $file['photo']['tmp_name'];
+			$_FILES['file']['error'] = $file['photo']['error'];
+			$_FILES['file']['size'] = $file['photo']['size'];
+			$_FILES['file']['name'] = $file['photo']['name'];
+
+			$zzz['upload_path'] = ($path != '' ? $path : './uploads/sipa/');
+			if ($type != '') $zzz['allowed_types'] = $type;
+			if ($filename != '') $zzz['file_name'] = $filename;
 			$zzz['overwrite'] = true;
-			$zzz['max_size']  = '20480';		
+			$zzz['max_size']  = '20480';
 			$this->upload->initialize($zzz);
 
-			if ($this->upload->do_upload($file)) {
-				$name = $this->upload->data("file_name"); //jika upload berhasil ganti value dari variable nama
+			if ($this->upload->do_upload('file')) {
+				$name = $this->upload->data("file_name"); //jika upload berhasil ganti value nama dari file yg di upload
 			}
 		}
 
-		//jika id_umur tidak sama dengan kosong dan nama masih
-		if($id_perusahaan != '' && $name  == '') 
-		{
-			$this->db->select($select .' as nama'); //ganti select dengan value nama ini bertujuan untuk mempercepat pemangilan data dari database hanya menselect satu colomn saja
+		if ($id_perusahaan != '' && $name == '') {
+			$this->db->select($select . ' as nama'); //ganti select dengan value nama ini bertujuan untuk mempercepat pemangilan data dari database hanya menselect satu colomn saja
 			$this->db->where('id_perusahaan', $id_perusahaan);
 			$get = $this->db->get('t_perusahaan');
 			//ganti nama menjadi row dari colom nama database jika get berhasil dan jumlah row dari pemangilan dari database melebih dari 0 jika tidak kembali nilai ''
-			$name =($get ? ($get->num_rows() > 0 ? $get->row()->nama : '') : '');
+			$get_name = ($get->num_rows() > 0) ? $get->row()->nama : '';
+			$name = $get ? $get_name : '';
 		}
-		return $name; //kemabli nilai $nama
+		return $name;
 	}
 }

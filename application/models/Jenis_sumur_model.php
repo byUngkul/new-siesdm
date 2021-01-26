@@ -1,7 +1,5 @@
 <?php
-/**
- * 
- */
+
 class Jenis_sumur_model extends CI_Model{
 	
 	public function view(){
