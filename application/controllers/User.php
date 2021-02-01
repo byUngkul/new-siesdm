@@ -59,6 +59,9 @@ class User extends CI_Controller
 					<a href='user/edit/$id' title='Ubah Data' class='btn btn-warning btn-sm'>
 						<i class='fas fa-edit'></i>
 					</a>
+					<a href='user/edit/$id' title='Ubah Permission' class='btn btn-info btn-sm'>
+						<i class='fas fa-cog'></i>
+					</a>
 					<button class='btn btn-danger btn-sm' title='Hapus data' onclick='deleteDialog($id)'>
 						<i class='fas fa-trash'></i>
 					</button>

@@ -34,9 +34,9 @@
     </a>
     <div id="collapseSatu" class="collapse <?= (isset($child_menu) && $child_menu == 'sumur') ? 'show' : '' ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'sumur') ? 'active' : '' ?>" href="sumur">Data Sumur</a>
-        <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'ambil_air') ? 'active' : '' ?>" href="#">Data Pengambilan Air</a>
-        <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'pajak_air') ? 'active' : '' ?>" href="#">Data Pajak ABT</a>
+        <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'sumur') ? 'active' : '' ?>" href="<?= base_url(); ?>sumur">Data Sumur</a>
+        <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'ambil_air') ? 'active' : '' ?>" href="<?= base_url(); ?>">Data Pengambilan Air</a>
+        <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'pajak_air') ? 'active' : '' ?>" href="<?= base_url(); ?>">Data Pajak ABT</a>
       </div>
     </div>
   </li>

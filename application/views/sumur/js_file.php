@@ -25,6 +25,8 @@
                 timer: 3000
             })
         <?php endif; ?>
+
+
     });
 
     var table = $('#table_sumur').dataTable({
@@ -56,10 +58,30 @@
                 "orderable": true,
             },
             {
-                className: "",
+                className: "text-center",
                 "targets": [4],
                 "orderable": false,
-            }
+            },
+            {
+                className: "text-center",
+                "targets": [5],
+                "orderable": false,
+            },
+            {
+                className: "text-center",
+                "targets": [6],
+                "orderable": false,
+            },
+            {
+                className: "text-center",
+                "targets": [7],
+                "orderable": false,
+            },
+            {
+                className: "text-center",
+                "targets": [8],
+                "orderable": false,
+            },
         ],
         "language": {
             "info": "Tampil _END_ dari _TOTAL_ data",
@@ -76,37 +98,80 @@
             },
         },
         "dom": "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-4 col-md-4'i><'col-sm-4 col-md-4 pl-5'l><'col-sm-4 col-md-4'p>>"
+            "<'row'<'col-sm-4 col-md-4'i><'col-sm-4 col-md-4 pl-5'l><'col-sm-4 col-md-4'p>>"
 
     });
 
+    var perusahaan_dropdown = new BVSelect({
+        selector: "#id_perusahaan",
+        searchbox: true,
+        search_autofocus: true,
+        offset: true,
+        width: "84%",
+        placeholder: "Pilih",
+        search_placeholder: "Search...",
+        breakpoint: 750
+    });
 
-    // var jml_input_poto = 0;
-    // var maxField = 10;
-    // var addButton = $('#addPoto');
-    // var wraper = $('#poto_perusahaan');
-    // var fieldHTML = `<div class="form-row">
-    //                     <button href="javascript:void(0);" class="remove_button btn btn-circle btn-sm btn-danger col-sm-1">
-    //                     <span class="fas fa-trash"></span>
-    //                     </button>
-    //                     <input type="file" class="ml-2 pl-0 col-sm-10 form-control-file form-control-sm" name="photo[]" value=""/>
-    //                 </div>`;
+    var zona_dropdown = new BVSelect({
+        selector: "#id_zona",
+        searchbox: true,
+        search_autofocus: true,
+        offset: true,
+        width: "84%",
+        placeholder: "Pilih",
+        search_placeholder: "Search...",
+        breakpoint: 750
+    });
 
-    // $(addButton).click((e) => {
-    //     e.preventDefault();
-    //     if (jml_input_poto < maxField) {
-    //         jml_input_poto++;
-    //         $(wraper).append(fieldHTML);
-    //     }
-    // })
+    var status_dropdown = new BVSelect({
+        selector: "#status_izin",
+        searchbox: false,
+        search_autofocus: true,
+        offset: true,
+        width: "84%",
+        placeholder: "Pilih",
+        search_placeholder: "Search...",
+        breakpoint: 750
+    });
 
-    // $(wraper).on('click', '.remove_button', function(e) {
-    //     e.preventDefault();
-    //     $(this).parent('div').remove();
-    //     jml_input_poto--;
-    // });
+    var jenis_sumur_dropdown = new BVSelect({
+        selector: "#id_jenis_sumur",
+        searchbox: false,
+        search_autofocus: true,
+        offset: true,
+        width: "84%",
+        placeholder: "Pilih",
+        search_placeholder: "Search...",
+        breakpoint: 750
+    });
+
+
+    var jml_input_poto = 0;
+    var maxField = 10;
+    var addButton = $('#addPoto');
+    var wraper = $('#poto_sumur');
+    var fieldHTML = `<div class="form-row">
+                        <button href="javascript:void(0);" class="remove_button btn btn-circle btn-sm btn-danger col-sm-1">
+                        <span class="fas fa-trash"></span>
+                        </button>
+                        <input type="file" class="ml-2 pl-0 col-sm-10 form-control-file form-control-sm" name="photo[]" value=""/>
+                    </div>`;
+
+    $(addButton).click((e) => {
+        e.preventDefault();
+        if (jml_input_poto < maxField) {
+            jml_input_poto++;
+            $(wraper).append(fieldHTML);
+        }
+    })
+
+    $(wraper).on('click', '.remove_button', function(e) {
+        e.preventDefault();
+        $(this).parent('div').remove();
+        jml_input_poto--;
+    });
 
     // function deleteDialog(a) {
-
     // }
 </script>

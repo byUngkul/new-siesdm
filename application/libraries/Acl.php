@@ -13,7 +13,7 @@ class Acl
 
     public function _cek_login()
     {
-        $user_session = $this->userlogin['authenticated'];
+        $user_session = isset($this->userlogin['authenticated']) ? $this->userlogin['authenticated'] : false;
         if ($user_session) {
             redirect('dashboard');
         }

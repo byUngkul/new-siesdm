@@ -12,11 +12,11 @@
             <table class="table table-striped" id="table_user">
                 <thead class="bg-info text-white">
                     <tr>
-                        <th>No</th>
-                        <th>Username</th>
-                        <th>Nama</th>
-                        <th>Role</th>
-                        <th width="150px">#</th>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Username</th>
+                        <th class="text-center">Nama</th>
+                        <th class="text-center">Role</th>
+                        <th class="text-center" width="150px">Aksi</th>
                     </tr>
                 </thead>
                 <tbody></tbody>

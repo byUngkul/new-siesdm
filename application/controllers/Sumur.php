@@ -7,6 +7,8 @@ class Sumur extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('sumur_model');
+		$this->load->model('perusahaan_model');
+		$this->load->model('jenis_sumur_model');
 	}
 
 	public function index()
@@ -24,7 +26,6 @@ class Sumur extends CI_Controller
 
 	public function ajax_list()
 	{
-        // var_dump($_POST['search']); die;
 		$list = $this->sumur_model->datagrid();
 		$data = array();
 		$no = $_POST['start'];
@@ -72,5 +73,41 @@ class Sumur extends CI_Controller
 				</div>";
 
 		return $btn;
+	}
+
+	public function tambah()
+	{
+		$data = [
+			'title' => 'Tambah Data [SUMUR]',
+			'parent_menu' => 'abt',
+			'child_menu' => 'sumur',
+			'js_file' => 'sumur/js_file',
+			'view' => 'sumur/tambah',
+			'perusahaan' => $this->perusahaan_model->get_alldata()->result_array(),
+			'jenis_sumur' => $this->jenis_sumur_model->get_alldata()->result_array(),
+		];
+
+		$this->load->view('layout', $data);
+	}
+	
+	public function edit($id)
+	{
+		$data = [
+			'title' => 'Edit Data [SUMUR]',
+			'parent_menu' => 'abt',
+			'child_menu' => 'sumur',
+			'js_file' => 'sumur/js_file',
+			'view' => 'sumur/edit',
+			'sumur' => $this->sumur_model->get_data_byid($id),
+			'perusahaan' => $this->perusahaan_model->get_alldata()->result_array(),
+			'jenis_sumur' => $this->jenis_sumur_model->get_alldata()->result_array(),
+		];
+		
+		$this->load->view('layout', $data);	
+	}
+
+	public function simpan()
+	{
+		redirect('sumur');
 	}
 }

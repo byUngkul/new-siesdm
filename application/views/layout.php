@@ -18,13 +18,12 @@
   <!-- Custom styles for this template-->
   <link href="<?= base_url() ?>/public/css/sb-admin-2.min.css" rel="stylesheet">
   <link href="<?= base_url() ?>/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
   <!-- Sweetalert -->
   <link rel="stylesheet" href="<?= base_url() ?>/public/vendor/sweetalert2/dist/sweetalert2.min.css">
-
   <!-- Lightbox -->
   <link rel="stylesheet" href="<?= base_url() ?>public/vendor/lightbox/lightbox.min.css">
-
+  <!-- BVSelect -->
+  <link rel="stylesheet" type="text/css" href="<?= base_url() ?>public/vendor/sv-select/css/bvselect.css">
   <style>
     tbody {
       font-weight: 300;
@@ -88,29 +87,26 @@
   <!-- Bootstrap core JavaScript-->
   <script src="<?= base_url() ?>/public/vendor/jquery/jquery.min.js"></script>
   <script src="<?= base_url() ?>/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
   <!-- Core plugin JavaScript-->
   <script src="<?= base_url() ?>/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-
   <!-- Custom scripts for all pages-->
   <script src="<?= base_url() ?>/public/js/sb-admin-2.min.js"></script>
-
   <!-- Page level plugins -->
   <!-- <script src="<?= base_url() ?>/public/vendor/chart.js/Chart.min.js"></script> -->
-
   <!-- Page level custom scripts -->
   <!-- <script src="<?= base_url() ?>/public/js/demo/chart-area-demo.js"></script> -->
   <!-- <script src="<?= base_url() ?>/public/js/demo/chart-pie-demo.js"></script> -->
-
   <!-- Page level plugins -->
-  <script src="<?= base_url() ?>/public/vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="<?= base_url() ?>/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+  <script src="<?= base_url() ?>public/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="<?= base_url() ?>public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
   <!-- Sweetalert2 -->
-  <script src="<?= base_url() ?>/public/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
-
+  <script src="<?= base_url() ?>public/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
   <!-- lightbox -->
   <script src="<?= base_url() ?>public/vendor/lightbox/lightbox.min.js"></script>
+  <!-- BVSelect -->
+  <script src="<?= base_url() ?>public/vendor/sv-select/js/bvselect.js"></script>
+  <!-- supermask -->
+  <script src="<?= base_url() ?>public/vendor/supermask/index.js"></script>
 
   <!-- Page level custom scripts -->
   <!-- <script src="<?= base_url() ?>/public/js/demo/datatables-demo.js"></script> -->

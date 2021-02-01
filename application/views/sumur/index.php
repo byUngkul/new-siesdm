@@ -5,7 +5,7 @@
     
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <a href="<?= base_url('user/tambah') ?>" class="btn btn-primary float-right">Tambah</a>
+        <a href="<?= base_url('sumur/tambah') ?>" class="btn btn-primary float-right">Tambah</a>
     </div>
     <div class="card-body">
         <div class="col-md-12">
@@ -19,15 +19,15 @@
             <table class="table table-striped" id="table_sumur">
                 <thead class="bg-info text-white">
                     <tr>
-                        <th>No</th>
-                        <th>Nama Perusahaan</th>
-                        <th>No Sumur</th>
-                        <th>Jenis Sumur</th>
-                        <th>Status Izin SIPA</th>
-                        <th>No SIPA</th>
-                        <th>Masa Berlaku</th>
-                        <th>Wilayah</th>
-                        <th width="150px">#</th>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Nama Perusahaan</th>
+                        <th class="text-center">No Sumur</th>
+                        <th class="text-center">Jenis Sumur</th>
+                        <th class="text-center">Status Izin SIPA</th>
+                        <th class="text-center">No SIPA</th>
+                        <th class="text-center">Masa Berlaku</th>
+                        <th class="text-center">Wilayah</th>
+                        <th class="text-center" width="150px">Aksi</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
