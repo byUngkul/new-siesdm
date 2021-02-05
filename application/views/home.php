@@ -13,7 +13,7 @@
                         <div class="row">
 
                             <div class="col-md-1 pl-0 mr-2">
-                                <img src="<?= base_url() . $data_dinas['logo_dinas']  ?>" width="120px">
+                                <img src="<?= base_url() . $data_dinas['logo_dinas']  ?>" style="width: 100%;">
                             </div>
                             <div class="col-md-10">
                                 <div class="row pt-2">

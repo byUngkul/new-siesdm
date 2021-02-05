@@ -6,7 +6,7 @@
       <?php
       $dinas = dinas_helper();
       ?>
-      <img src="<?= base_url() . $dinas['logo_dinas'] ?>" width="70px">
+      <img src="<?= base_url() . $dinas['logo_dinas'] ?>" width="50px">
     </div>
     <div class="sidebar-brand-text font-weight-bold h4 mx-1"><?= $dinas['singkatan_dinas'] ?></div>
   </a>

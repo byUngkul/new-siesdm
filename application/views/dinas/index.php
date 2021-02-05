@@ -46,10 +46,12 @@
                 </div>
     
                 <div class="form-row">
-                    <?php $logo = base_url() . 'uploads/logo/logo-jabar.png' ?>
+					<?php 
+						$logo = isset($dinas) ? base_url() . $dinas['logo_dinas'] : base_url() . 'uploads/logo/logo-jabar.png' 
+					?>
     
                     <div class="col-md-12 justify-content-center">
-                        <img src="<?= $logo ?>" width="50%" class="rounded mx-auto d-block" id="logoPreview">
+                        <img src="<?= $logo  ?>" width="50%" class="rounded mx-auto d-block" id="logoPreview">
                     </div>
                 </div>
     

@@ -81,7 +81,7 @@
 
 <body class="text-center">
     <form class="form-signin" action="auth/login" method="POST">
-        <img class="mb-4" src="<?= base_url() . $dinas['logo_dinas'] ?>" alt="" width="120" height="86">
+        <img class="mb-4" src="<?= base_url() . $dinas['logo_dinas'] ?>" alt="" width="120">
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
         <span><?= $this->session->flashdata('message'); ?></span>
         <label for="inputEmail" class="sr-only">Email address</label>
