@@ -27,15 +27,15 @@
       <span>Perusahaan</span></a>
   </li>
 
-  <li class="nav-item">
+  <li class="nav-item <?= (isset($parent_menu) && $parent_menu == 'abt') ? 'active' : '' ?>">
     <a class="nav-link <?= (isset($parent_menu) && $parent_menu == 'abt') ? '' : 'collapsed' ?> " href="#" data-toggle="collapse" data-target="#collapseSatu" aria-expanded="true" aria-controls="collapseTwo">
       <i class="fas fa-fw fa-water"></i>
       <span>ABT</span>
     </a>
-    <div id="collapseSatu" class="collapse <?= (isset($child_menu) && $child_menu == 'sumur') ? 'show' : '' ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+    <div id="collapseSatu" class="collapse <?= (isset($parent_menu) && $parent_menu == 'abt') ? 'show' : '' ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'sumur') ? 'active' : '' ?>" href="<?= base_url(); ?>sumur">Data Sumur</a>
-        <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'ambil_air') ? 'active' : '' ?>" href="<?= base_url(); ?>">Data Pengambilan Air</a>
+        <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'ambil_air') ? 'active' : '' ?>" href="<?= base_url(); ?>penggunaanair">Data Pengambilan Air</a>
         <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'pajak_air') ? 'active' : '' ?>" href="<?= base_url(); ?>">Data Pajak ABT</a>
       </div>
     </div>

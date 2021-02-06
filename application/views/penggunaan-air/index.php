@@ -8,21 +8,23 @@
         <div class='btn-group btn-group-sm float-right' role='group'>
             <a href="<?= base_url('penggunaanair/tambah') ?>" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Tambah</a>
             <button class="btn btn-success" data-toggle="modal" data-target="#cetakDialog"><i class="fas fa-print"></i> Cetak</button>
-            <!-- <a href="<?= base_url('perusahaan/cetak_pdf') ?>" target="_blank" class="btn btn-success"><i class="fas fa-print"></i> Cetak</a>
-            <a href="<?= base_url('perusahaan/cetak_excel') ?>"  class="btn btn-warning"><i class="fas fa-file-excel"></i> Cetak</a> -->
         </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-striped" id="tabelPerusahaan">
+            <table class="table table-striped" id="tabelPenggunaanAir">
                 <thead class="bg-info text-white">
                     <tr>
                         <th class="text-center">No</th>
                         <th class="text-center">Nama Perusahaan</th>
-                        <th class="text-center">Pemilik</th>
-                        <th class="text-center">Jenis Usaha</th>
-                        <th class="text-center">Alamat</th>
-                        <th class="text-center">Wilayah</th>
+                        <th class="text-center">Kota</th>
+                        <th class="text-center">No. Sumur</th>
+                        <th class="text-center">Bulan</th>
+                        <th class="text-center">Tahun</th>
+                        <th class="text-center">Jml Pengambilan</th>
+                        <th class="text-center">Debit Izin Perhari</th>
+                        <th class="text-center">Debit Izin Perbulan</th>
+                        <th class="text-center">Status</th>
                         <th class="text-center" width="150px">Aksi</th>
                     </tr>
                 </thead>

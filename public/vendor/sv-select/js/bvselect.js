@@ -319,8 +319,8 @@ class BVSelect {
             if (Math.round(currentElementView + 50) > Math.round(currentWindowView)) {
 
                 selectedIDFocus = randomID;
-                document.getElementById("ul_" + randomID).style.position = "fixed";
-                document.getElementById("ul_" + randomID).style.bottom = "0px";
+                document.getElementById("ul_" + randomID).style.position = "absolute";
+                // document.getElementById("ul_" + randomID).style.bottom = "0px";
 
             } else {
 

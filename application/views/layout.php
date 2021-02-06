@@ -22,6 +22,8 @@
   <link rel="stylesheet" href="<?= base_url() ?>/public/vendor/sweetalert2/dist/sweetalert2.min.css">
   <!-- Lightbox -->
   <link rel="stylesheet" href="<?= base_url() ?>public/vendor/lightbox/lightbox.min.css">
+  <!-- datepicker -->
+  <link rel="stylesheet" href="<?= base_url() ?>public/vendor/datepicker/css/bootstrap-datepicker.min.css">
   <!-- BVSelect -->
   <link rel="stylesheet" type="text/css" href="<?= base_url() ?>public/vendor/sv-select/css/bvselect.css">
   <style>
@@ -107,6 +109,8 @@
   <script src="<?= base_url() ?>public/vendor/sv-select/js/bvselect.js"></script>
   <!-- supermask -->
   <script src="<?= base_url() ?>public/vendor/supermask/index.js"></script>
+  <!-- datepicker -->
+  <script src="<?= base_url() ?>public/vendor/datepicker/js/bootstrap-datepicker.min.js"></script>
 
   <!-- Page level custom scripts -->
   <!-- <script src="<?= base_url() ?>/public/js/demo/datatables-demo.js"></script> -->

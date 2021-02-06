@@ -21,14 +21,18 @@
                 timer: 3000
             })
         <?php endif; ?>
+
+        <?php if (isset($penggunaanair)) : ?>
+            noSumurDropdown();
+        <?php endif ?>
     });
 
-    var table = $('#tabelPerusahaan').dataTable({
+    var table = $('#tabelPenggunaanAir').dataTable({
         "processing": true,
         "serverSide": true,
         "order": [],
         "ajax": {
-            "url": "<?php echo site_url('perusahaan/ajax_list') ?>",
+            "url": "<?php echo site_url('penggunaanair/ajax_list') ?>",
             "type": "POST"
         },
         "columnDefs": [{
@@ -44,7 +48,7 @@
             {
                 className: "",
                 "targets": [2],
-                "orderable": false,
+                "orderable": true,
             },
             {
                 className: "",
@@ -54,7 +58,7 @@
             {
                 className: "",
                 "targets": [4],
-                "orderable": false,
+                "orderable": true,
             },
             {
                 className: "text-center",
@@ -65,7 +69,27 @@
                 className: "text-center",
                 "targets": [6],
                 "orderable": false,
-            }
+            },
+            {
+                className: "text-center",
+                "targets": [7],
+                "orderable": false,
+            },
+            {
+                className: "text-center",
+                "targets": [8],
+                "orderable": false,
+            },
+            {
+                className: "text-center",
+                "targets": [9],
+                "orderable": false,
+            },
+            {
+                className: "text-center",
+                "targets": [10],
+                "orderable": false,
+            },
         ],
         "language": {
             "info": "Tampil _END_ dari _TOTAL_ data",
@@ -83,32 +107,55 @@
         }
     });
 
-    var jml_input_poto = 0;
-    var maxField = 10;
-    var addButton = $('#addPoto');
-    var wraper = $('#poto_perusahaan');
-    var fieldHTML = `<div class="form-row">
-                        <button href="javascript:void(0);" class="remove_button btn btn-circle btn-sm btn-danger col-sm-1">
-                        <span class="fas fa-trash"></span>
-                        </button>
-                        <input type="file" class="ml-2 pl-0 col-sm-10 form-control-file form-control-sm" name="photo[]" value=""/>
-                    </div>`;
-
-    $(addButton).click((e) => {
-        e.preventDefault();
-        if (jml_input_poto < maxField) {
-            jml_input_poto++;
-            $(wraper).append(fieldHTML);
-        }
-    })
-
-    $(wraper).on('click', '.remove_button', function(e) {
-        e.preventDefault();
-        $(this).parent('div').remove();
-        jml_input_poto--;
+    var perusahaan_dropdown = new BVSelect({
+        selector: "#id_perusahaan",
+        searchbox: true,
+        offset: true,
+        search_autofocus: true,
+        width: "84%",
+        placeholder: "Pilih",
+        search_placeholder: "Cari...",
+        breakpoint: 450
     });
 
+    $('#bulan').datepicker({
+        format: "mm",
+        minViewMode: 1,
+        language: "id"
+    });
+
+    $('#tahun').datepicker({
+        format: "yyyy",
+        minViewMode: 2,
+        language: "id"
+    });
+
+    function noSumurDropdown() {
+        let id_perusahaan = document.getElementById('id_perusahaan');
+        let dropdownSumur = document.getElementById('id_sumur');
+        let option = '<option>Pilih</option>';
+        let penggunaanair = '<?= isset($penggunaanair) ? json_encode($penggunaanair) : '' ?>';
+        let dataConv = (penggunaanair != '') ?
+            JSON.parse(penggunaanair) : '';
+
+        $.post('<?= base_url('penggunaanair/dorpdownSumur') ?>', {
+            id_perusahaan: id_perusahaan.value
+        }, (res) => {
+            var aa = JSON.parse(res);
+
+            aa.forEach((el, index) => {
+                if (dataConv == '') {
+                    option += `<option value="${ el.id_sumur }">${ el.no_sumur }</option>`;
+                } else {
+                    option += `<option ${(dataConv.id_sumur == el.id_sumur) ? 'selected' : ''} value="${ el.id_sumur }">${ el.no_sumur }</option>`;
+                }
+            });
+
+            dropdownSumur.innerHTML = option;
+        })
+    }
+
     function deleteDialog(a) {
-        
+
     }
 </script>

@@ -6,7 +6,6 @@
 class Perusahaan_model extends CI_Model
 {
 
-
 	protected $table = 't_perusahaan p';
 	protected $column_order = array(null, 'nama_perusahaan', 'nama_pemilik', 'jns_usaha', 'alamat_perusahaan', 'nama_kota');
 	protected $column_search = array('nama_perusahaan', 'nama_pemilik', 'nama_kota', 'alamat_perusahaan');
