@@ -8,6 +8,7 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->model('user_model');
+		$this->load->model('permission_m');
     }
 
     public function index()
@@ -32,7 +33,7 @@ class Auth extends CI_Controller
             redirect('auth');
         } else {
             if (password_verify($password, $user->password)) {
-                $permission = [];
+                $permission = $this->permission_m->get_list_permission($user->id_user);
                 $session = [
                     'authenticated' => true,
                     'id_user' => $user->id_user,
@@ -55,6 +56,6 @@ class Auth extends CI_Controller
     public function logout()
     {
         $this->session->sess_destroy();
-        redirect('auth');
+        redirect('login');
     }
 }

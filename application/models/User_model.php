@@ -16,7 +16,7 @@ class User_model extends CI_Model
 	public function getById($id)
 	{
 		return $this->db->get_where('t_users', [
-			"id" => $id
+			"id_user" => $id
 		])->row();
 	}
 
@@ -25,6 +25,13 @@ class User_model extends CI_Model
 		return $this->db->get_where('t_users', [
 			"username" => $username
 		])->row();
+	}
+
+	public function getOldPass($iduser)
+	{
+		return $this->db->select('password')
+			->get_where('t_users', ['id_user' => $iduser])
+			->row_array();
 	}
 
 	public function save($post)
@@ -40,17 +47,9 @@ class User_model extends CI_Model
 		$this->db->insert('t_users', $data);
 	}
 
-	public function update($post)
+	public function update($iduser, $data)
 	{
-		$data = [
-			'username' => $post["username"],
-			'password' => $post["password"],
-			'id_pegawai' => $post["id_pegawai"],
-			'id_role' => $post["role"],
-			'id_bidang' => isset($post['id_bidang']) ? $post['id_bidang'] : null
-		];
-
-		$this->db->update('t_users', $data, array('id' => $post["id"]));
+		$this->db->update('t_users', $data, array('id_user' => $iduser));
 	}
 
 	public function datagrid()

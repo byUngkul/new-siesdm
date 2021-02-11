@@ -44,8 +44,25 @@ class Acl
     function user_login()
     {
         $this->CI->load->model('auth_model');
-        $user_id = $this->ci->session->userdata('userid');
-        $user_data = $this->ci->auth_model->get($user_id)->row();
+        $user_id = $this->CI->session->userdata('userid');
+        $user_data = $this->CI->auth_model->get($user_id)->row();
         return $user_data;
     }
+
+	function list_permission($user_id)
+	{
+		$user_permission = $this->CI->permission_m->get_list_permission($user_id);
+		$list_permission = [];
+		foreach ($user_permission as $v) {
+			array_push($list_permission, $v['permission_id']);
+		}
+		
+		return $list_permission;
+	}
+
+	function generate_password($string)
+	{
+		$pass_option = ['cost' => 10];
+		return password_hash($string, PASSWORD_DEFAULT, $pass_option);
+	}
 }

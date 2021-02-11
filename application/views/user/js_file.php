@@ -1,6 +1,9 @@
 <script type="text/javascript">
     $(document).ready(() => {
-        menu_list();
+		if (menu != '') {
+			menu_list();
+			
+		}
         <?php
         if ($this->session->flashdata('error')) :
         ?>
@@ -29,6 +32,11 @@
 
         table;
     });
+
+
+	var akses = '<?= isset($permissions) ? $permissions : null ?>';
+	var menu = '<?= isset($menus) ? $menus : null ?>';
+	var user_have_permission = '<?= isset($user_permission) ? $user_permission : null ?>';
 
     var table = $('#table_user').dataTable({
         "processing": true,
@@ -81,20 +89,19 @@
     });
 
     function menu_list() {
-        let akses = '<?= isset($permissions) ? $permissions : null ?>';
-        let menu = '<?= isset($menus) ? $menus : null ?>';
         var menu_array = JSON.parse(menu);
         var akses_array = JSON.parse(akses);
         var judul_menu = '<div class="list-group list-group-flush">';
+		var user_permission = JSON.parse(user_have_permission);
 
         menu_array.forEach(el => {
-            console.log(el)
-            console.log(akses_array)
             judul_menu += `<li class="list-group-item">${ el.display_name }</li>`;
             judul_menu += `<div class="col-sm-12 mt-1 mb-3 ml-3">`;
             akses_array.forEach(a => {
                 if (a.id_menu === el.id_menu) {
-                    judul_menu += `<div class="col-sm-6"><input name="permission[]" class="form-check-input" value="${ a.id_permission }" type="checkbox"> ${ a.display_name }</div>`;
+                    judul_menu += `<div class="col-sm-6">
+						<input name="permission[]" ${ user_permission.includes(a.id_permission) ? 'checked' : '' } class="form-check-input" value="${ a.id_permission }" style="cursor: pointer;" type="checkbox"> ${ a.display_name }
+					</div>`;
                 }
             });
             judul_menu += `</div>`;
@@ -104,5 +111,3 @@
         $('#permission_list').html(judul_menu);
     }
 </script>
-
-<input type="checkbox" value="">
