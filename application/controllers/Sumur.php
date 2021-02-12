@@ -119,4 +119,10 @@ class Sumur extends CI_Controller
 	{
 		redirect('sumur');
 	}
+
+	public function delete($id)
+	{
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
+	}
 }

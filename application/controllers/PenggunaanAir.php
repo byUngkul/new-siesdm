@@ -13,6 +13,7 @@ class PenggunaanAir extends CI_Controller
 
 	public function index()
 	{
+		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
 
 		$data = [
@@ -48,7 +49,7 @@ class PenggunaanAir extends CI_Controller
 			$row[] = $val->debit_izin . $satuan;
 			$row[] = ($val->debit_izin * 30) . $satuan;
 			$row[] = $aktip;
-			$row[] = $this->_action($val->id_sumur);
+			$row[] = $this->_action($val->id_penggunaanair);
 
 			$data[] = $row;
 		}
@@ -86,6 +87,7 @@ class PenggunaanAir extends CI_Controller
 
 	public function tambah()
 	{
+		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
 
 		$data = [
@@ -102,6 +104,7 @@ class PenggunaanAir extends CI_Controller
 
 	public function edit($id)
 	{
+		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
 		
 		$data = [
@@ -114,7 +117,7 @@ class PenggunaanAir extends CI_Controller
 			'perusahaan' => $this->perusahaan_model->get_alldata()->result_array(),
 			'penggunaanair' => $this->pengambilanair->get_data_byId($id)
 		];
-		// var_dump($data['penggunaanair']); die;
+
 		$this->load->view('layout', $data);
 	}
 
@@ -131,5 +134,16 @@ class PenggunaanAir extends CI_Controller
 		}
 
 		redirect('penggunaanair');
+	}
+
+	public function delete()
+	{
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
+		$post = $this->input->post();
+
+		if ($this->pengambilanair->delete($post['id'])) {
+			echo json_encode(['data' => 'success']);
+		}
 	}
 }

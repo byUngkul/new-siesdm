@@ -14,8 +14,8 @@ class User extends CI_Controller
 
 	public function index()
 	{
-		// $this->acl->_check_not_login();
-		// $this->acl->_cek_have_permission($this->uri->segments);
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
 
 		$data = [
 			'title' => 'Data User',
@@ -29,7 +29,6 @@ class User extends CI_Controller
 
 	public function ajax_list()
 	{
-		// $this->acl->_cek_have_permission($this->uri->segments);
 		$list = $this->user_model->datagrid();
 		$data = array();
 		$no = $_POST['start'];
@@ -74,7 +73,9 @@ class User extends CI_Controller
 
 	public function tambah()
 	{
+		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
+
 		$permit = json_encode($this->permission_m->get_data_permission());
 		$menu = json_encode($this->permission_m->get_data_menu());
 		$data = [
@@ -93,6 +94,7 @@ class User extends CI_Controller
 
 	public function edit($iduser)
 	{
+		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
 
 		$data = [
@@ -110,6 +112,7 @@ class User extends CI_Controller
 
 	public function edit_permission($iduser)
 	{
+		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
 
 		$permit = json_encode($this->permission_m->get_data_permission());
@@ -219,9 +222,4 @@ class User extends CI_Controller
 
 		redirect('user');
 	}
-
-	// public function validate_post($param)
-	// {
-
-	// }
 }

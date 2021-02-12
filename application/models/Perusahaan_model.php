@@ -1,8 +1,5 @@
 <?php
 
-/**
- * class model perusahaan
- */
 class Perusahaan_model extends CI_Model
 {
 
@@ -55,8 +52,22 @@ class Perusahaan_model extends CI_Model
 		return $query->result();
 	}
 
-	public function get_alldata()
+	public function get_alldata($param)
 	{
+		if ($param['wilayah'] != '') {
+			$this->db->where('id_kota', $param['wilayah']);
+		}
+
+		if ($param['status_modal'] != '') {
+			$this->db->where('status_modal', $param['status_modal']);
+		}
+
+		if ($param['tgl_pendataan'] != '') {
+			$this->db->where("DATE_FORMAT(created_at, '%d-%m-%Y') =", $param['tgl_pendataan']);
+		}
+		$this->db->select('nama_perusahaan, nama_pemilik, jns_usaha, tlp_perusahaan, email, kontak_person, tlp_person, alamat_perusahaan, luas_area, nama_kota')
+			->join('t_kota', 'id = id_kota');
+
 		return $this->db->get('t_perusahaan');
 	}
 

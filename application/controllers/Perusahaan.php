@@ -28,9 +28,6 @@ class Perusahaan extends CI_Controller
 
 	public function ajax_list()
 	{
-		$this->acl->_check_not_login();
-		$this->acl->_cek_have_permission($this->uri->segments);
-
 		$list = $this->perusahaan_model->get_data();
 		$data = array();
 		$no = $_POST['start'];
@@ -140,21 +137,22 @@ class Perusahaan extends CI_Controller
 		$this->load->view('layout', $data);
 	}
 
-	public function delete($id)
+	public function delete()
 	{
 		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
+		$post = $this->input->post();
 
-		if ($this->prs->delete($id)) {
-			$this->session->set_flashdata('success', 'Data berhasil di hapus!');
-			redirect('perusahaan');
+		if ($this->perusahaan_model->delete($post['id'])) {
+			echo json_encode(['data' => 'success']);
 		}
 	}
 
 	public function cetak_pdf()
 	{
+		$param = $this->input->get();
 		
-		$data = $this->perusahaan_model->get_alldata();
+		$data = $this->perusahaan_model->get_alldata($param);
 		ini_set("memory_limit","512M");
 		ini_set('max_execution_time', 300);
 		set_time_limit(300);
@@ -171,7 +169,8 @@ class Perusahaan extends CI_Controller
 
 	public function cetak_excel()
 	{
-		$data = $this->perusahaan_model->get_alldata();
+		$param = $this->input->get();
+		$data = $this->perusahaan_model->get_alldata($param);
 
 		$this->load->view('perusahaan/export/excel', ['data' => $data]);
 	}

@@ -107,17 +107,6 @@
         }
     });
 
-    var perusahaan_dropdown = new BVSelect({
-        selector: "#id_perusahaan",
-        searchbox: true,
-        offset: true,
-        search_autofocus: true,
-        width: "84%",
-        placeholder: "Pilih",
-        search_placeholder: "Cari...",
-        breakpoint: 450
-    });
-
     $('#bulan').datepicker({
         format: "mm",
         minViewMode: 1,
@@ -127,6 +116,7 @@
     $('#tahun').datepicker({
         format: "yyyy",
         minViewMode: 2,
+		autoclose: true,
         language: "id"
     });
 
@@ -156,6 +146,42 @@
     }
 
     function deleteDialog(a) {
-
+		$('#idDialogHapus').val(a);
+		$('#deleteDialog').modal('show');
     }
+
+	$('#btnHapus').on('click', () => {
+		$.post('<?= base_url('penggunaanair/delete') ?>', {
+            id: $('#idDialogHapus').val()
+        }, (res) => {
+			var aa = JSON.parse(res);
+			$('#deleteDialog').modal('hide');
+			
+			if (aa.data == 'success') {
+				Swal.fire({
+					title: 'Skses!',
+					text: 'data berhasil di hapus!',
+					icon: 'success',
+					timer: 3000
+				});
+
+				$('#tabelPenggunaanAir').DataTable().ajax.reload();
+			}
+		});
+	});
+	
+	var id_perusahaan = document.getElementById('id_perusahaan');
+	if(typeof(id_perusahaan) != 'undefined' && id_perusahaan != null){
+
+		var perusahaan_dropdown = new BVSelect({
+			selector: "#id_perusahaan",
+			searchbox: true,
+			offset: true,
+			search_autofocus: true,
+			width: "84%",
+			placeholder: "Pilih",
+			search_placeholder: "Cari...",
+			breakpoint: 450
+		});
+	}
 </script>

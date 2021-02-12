@@ -23,6 +23,12 @@
         <?php endif; ?>
     });
 
+	$('#tgl_pendataan_cetak').datepicker({
+        format: "dd-mm-yyyy",
+        autoclose: true,
+        language: "id"
+    });
+
     var table = $('#tabelPerusahaan').dataTable({
         "processing": true,
         "serverSide": true,
@@ -109,6 +115,43 @@
     });
 
     function deleteDialog(a) {
-        
+		$('#idDialogHapus').val(a);
+		$('#deleteDialog').modal('show');
     }
+
+	$('#btnHapus').on('click', () => {
+		$.post('<?= base_url('perusahaan/delete') ?>', {
+            id: $('#idDialogHapus').val()
+        }, (res) => {
+			var aa = JSON.parse(res);
+			$('#deleteDialog').modal('hide');
+			
+			if (aa.data == 'success') {
+				Swal.fire({
+					title: 'Skses!',
+					text: 'data berhasil di hapus!',
+					icon: 'success',
+					timer: 3000
+				});
+
+				$('#tabelPerusahaan').DataTable().ajax.reload();
+			}
+		});
+	});
+
+	$('#btnPdf').on('click', () => {
+		var wilayah_cetak = document.getElementById('wilayah_cetak');
+		var status_modal_cetak = document.getElementById('status_modal_cetak');
+		var tgl_pendataan_cetak = document.getElementById('tgl_pendataan_cetak');
+
+		window.open(`<?= base_url('perusahaan/cetak_pdf?wilayah=${ wilayah_cetak.value }&status_modal=${ status_modal_cetak.value }&tgl_pendataan=${ tgl_pendataan_cetak.value}')?>`, '_blank');
+	});
+
+	$('#btnExcel').on('click', () => {
+		var wilayah_cetak = document.getElementById('wilayah_cetak');
+		var status_modal_cetak = document.getElementById('status_modal_cetak');
+		var tgl_pendataan_cetak = document.getElementById('tgl_pendataan_cetak');
+
+		window.open(`<?= base_url('perusahaan/cetak_excel?wilayah=${ wilayah_cetak.value }&status_modal=${ status_modal_cetak.value }&tgl_pendataan=${ tgl_pendataan_cetak.value}')?>`, '_blank');
+	});
 </script>
