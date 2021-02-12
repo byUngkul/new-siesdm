@@ -126,8 +126,18 @@
           title: '<?= $this->session->flashdata('welcome') ?>',
           showConfirmButton: false,
           timer: 2000
-        })
+        });
       <?php endif; ?>
+
+			<?php if ($this->session->flashdata('no_permit')) : ?>
+				Swal.fire({
+          // position: 'top-end',
+          icon: 'warning',
+          title: '<?= $this->session->flashdata('no_permit') ?>',
+          showConfirmButton: false,
+          timer: 2000
+        });
+			<?php endif; ?>
     })
   </script>
 </body>

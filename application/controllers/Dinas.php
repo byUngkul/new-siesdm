@@ -13,6 +13,8 @@ class Dinas extends CI_Controller
 
     public function index()
     {
+		$this->acl->_cek_have_permission($this->uri->segments);
+
         $data = [
             'title' => 'Setting Dinas',
             'parent_menu' => 'dinas',
@@ -27,8 +29,9 @@ class Dinas extends CI_Controller
 
     public function simpan()
     {
+		$this->acl->_cek_have_permission($this->uri->segments);
+		
         $this->dinas_m->update();
-
         redirect('dinas');
     }
 }

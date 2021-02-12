@@ -37,4 +37,14 @@ class Permission_m extends CI_Model
 			'permission_id' => $permission_id
 		]);
 	}
+
+	public function get_permission_by_menu($menu_name, $submenu_name)
+	{
+		return $this->db->select('id_permission')
+			->join('t_menu m', 'm.id_menu = p.id_menu')
+			->get_where('t_permission p', [
+				'm.menu_name' => $menu_name,
+				'p.permission_name' => $submenu_name
+			])->row_array();
+	}
 }

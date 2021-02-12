@@ -14,7 +14,8 @@ class User extends CI_Controller
 
 	public function index()
 	{
-		$this->acl->_check_not_login();
+		// $this->acl->_check_not_login();
+		// $this->acl->_cek_have_permission($this->uri->segments);
 
 		$data = [
 			'title' => 'Data User',
@@ -28,6 +29,7 @@ class User extends CI_Controller
 
 	public function ajax_list()
 	{
+		// $this->acl->_cek_have_permission($this->uri->segments);
 		$list = $this->user_model->datagrid();
 		$data = array();
 		$no = $_POST['start'];
@@ -56,10 +58,10 @@ class User extends CI_Controller
 	public function _action($id = null)
 	{
 		$btn = "<div class='btn-group btn-group-sm' role='group' aria-label='Button aksi'>
-					<a href=". base_url('user/edit/'.$id) ." title='Ubah Data' class='btn btn-warning btn-sm'>
+					<a href=" . base_url('user/edit/' . $id) . " title='Ubah Data' class='btn btn-warning btn-sm'>
 						<i class='fas fa-edit'></i>
 					</a>
-					<a href=". base_url('user/edit_permission/'.$id) ." title='Ubah Permission' class='btn btn-info btn-sm'>
+					<a href=" . base_url('user/edit_permission/' . $id) . " title='Ubah Permission' class='btn btn-info btn-sm'>
 						<i class='fas fa-cog'></i>
 					</a>
 					<button class='btn btn-danger btn-sm' title='Hapus data' onclick='deleteDialog($id)'>
@@ -72,6 +74,7 @@ class User extends CI_Controller
 
 	public function tambah()
 	{
+		$this->acl->_cek_have_permission($this->uri->segments);
 		$permit = json_encode($this->permission_m->get_data_permission());
 		$menu = json_encode($this->permission_m->get_data_menu());
 		$data = [
@@ -90,6 +93,8 @@ class User extends CI_Controller
 
 	public function edit($iduser)
 	{
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		$data = [
 			'title' => 'Ubah Data [USER]',
 			'parent_menu' => 'user',
@@ -105,6 +110,8 @@ class User extends CI_Controller
 
 	public function edit_permission($iduser)
 	{
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		$permit = json_encode($this->permission_m->get_data_permission());
 		$menu = json_encode($this->permission_m->get_data_menu());
 		$user_permission = $this->acl->list_permission($iduser);
@@ -159,7 +166,7 @@ class User extends CI_Controller
 		} else {
 			if ($post['id_user'] != '') {
 				$password_lama = $this->user_model->getOldPass($post['id_user']);
-				
+
 				$data = [
 					'username' => $post["username"],
 					'password' => ($post["password"] == '') ? $password_lama : $this->acl->generate_password($post["password"]),

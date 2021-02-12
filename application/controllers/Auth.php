@@ -33,13 +33,14 @@ class Auth extends CI_Controller
             redirect('auth');
         } else {
             if (password_verify($password, $user->password)) {
-                $permission = $this->permission_m->get_list_permission($user->id_user);
+                $permission = $this->acl->list_permission($user->id_user);
+				
                 $session = [
                     'authenticated' => true,
                     'id_user' => $user->id_user,
                     'username' => $user->username,
                     'nama' => $user->username,
-                    'role' => $user->role,
+                    'role' => $user->id_role,
                     'permission' => $permission
                 ];
 

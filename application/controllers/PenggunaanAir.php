@@ -13,6 +13,8 @@ class PenggunaanAir extends CI_Controller
 
 	public function index()
 	{
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		$data = [
 			'title' => 'Data Penggunaan Air',
 			'parent_menu' => 'abt',
@@ -84,6 +86,8 @@ class PenggunaanAir extends CI_Controller
 
 	public function tambah()
 	{
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		$data = [
 			'title' => 'Tambah Data [PENGGUNAAN AIR]',
 			'parent_menu' => 'abt',
@@ -98,6 +102,8 @@ class PenggunaanAir extends CI_Controller
 
 	public function edit($id)
 	{
+		$this->acl->_cek_have_permission($this->uri->segments);
+		
 		$data = [
 			'title' => 'Edit Data [SUMUR]',
 			'parent_menu' => 'abt',

@@ -9,6 +9,7 @@ class Acl
     {
         $this->CI = &get_instance();
         $this->userlogin = $this->CI->session->userdata();
+		$this->CI->load->model('permission_m');
     }
 
     public function _cek_login()
@@ -29,16 +30,20 @@ class Acl
 
     function _is_admin()
     {
-        if ($this->CI->session->userdata('role') != 1) {
-            redirect('admin/main');
-        }
+        return ($this->CI->session->userdata('role') != 1) ? false : true;
     }
 
-    public function _cek_have_permission($id_menu)
+    public function _cek_have_permission($current_url)
     {
-        if (!in_array($id_menu, $this->CI->session->userdata('permission'))) {
-            echo json_encode(['message' => 'Anda tidak memiliki akses ke menu ini!']);
-        }
+		if (!$this->_is_admin()) {
+			$current_url[2] = (isset($current_url[2])) ? $current_url[2] : 'index';
+			$id_menu = $this->CI->permission_m->get_permission_by_menu($current_url[1], $current_url[2]);
+			$permission_user = $this->CI->session->userdata('permission');
+			if (!in_array($id_menu['id_permission'], $permission_user)) {
+				$this->CI->session->set_flashdata('no_permit', 'anda tidak punya akses!');
+				redirect('dashboard');
+			}
+		}
     }
 
     function user_login()

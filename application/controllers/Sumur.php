@@ -13,6 +13,9 @@ class Sumur extends CI_Controller
 
 	public function index()
 	{
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		$data = [
 			'title' => 'Data Sumur',
 			'parent_menu' => 'abt',
@@ -77,6 +80,9 @@ class Sumur extends CI_Controller
 
 	public function tambah()
 	{
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		$data = [
 			'title' => 'Tambah Data [SUMUR]',
 			'parent_menu' => 'abt',
@@ -92,6 +98,9 @@ class Sumur extends CI_Controller
 	
 	public function edit($id)
 	{
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
+		
 		$data = [
 			'title' => 'Edit Data [SUMUR]',
 			'parent_menu' => 'abt',

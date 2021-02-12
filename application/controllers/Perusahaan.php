@@ -13,6 +13,9 @@ class Perusahaan extends CI_Controller
 
 	public function index()
 	{
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		$data = [
 			'title' => 'Perusahaan',
 			'parent_menu' => 'perusahaan',
@@ -25,6 +28,9 @@ class Perusahaan extends CI_Controller
 
 	public function ajax_list()
 	{
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		$list = $this->perusahaan_model->get_data();
 		$data = array();
 		$no = $_POST['start'];
@@ -71,6 +77,9 @@ class Perusahaan extends CI_Controller
 
 	public function detile($id)
 	{
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		$data = [
 			'title' => 'Detile Data [Perusahaan]',
 			'parent_menu' => 'perusahaan',
@@ -84,6 +93,9 @@ class Perusahaan extends CI_Controller
 
 	public function tambah()
 	{
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		$data = [
 			'title' => 'Tambah Data [Perusahaan]',
 			'parent_menu' => 'perusahaan',
@@ -97,6 +109,9 @@ class Perusahaan extends CI_Controller
 
 	public function simpan()
 	{
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		if ($this->input->post('id_perusahaan') == null) {
 			$this->perusahaan_model->add();
 		} else {
@@ -110,6 +125,9 @@ class Perusahaan extends CI_Controller
 
 	public function edit($id)
 	{
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		$data = [
 			'title' => 'Edit Data [Perusahaan]',
 			'parent_menu' => 'perusahaan',
@@ -124,6 +142,9 @@ class Perusahaan extends CI_Controller
 
 	public function delete($id)
 	{
+		$this->acl->_check_not_login();
+		$this->acl->_cek_have_permission($this->uri->segments);
+
 		if ($this->prs->delete($id)) {
 			$this->session->set_flashdata('success', 'Data berhasil di hapus!');
 			redirect('perusahaan');
@@ -132,6 +153,7 @@ class Perusahaan extends CI_Controller
 
 	public function cetak_pdf()
 	{
+		
 		$data = $this->perusahaan_model->get_alldata();
 		ini_set("memory_limit","512M");
 		ini_set('max_execution_time', 300);
