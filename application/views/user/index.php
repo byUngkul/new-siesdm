@@ -13,8 +13,8 @@
                 <thead class="bg-info text-white">
                     <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Username</th>
-                        <th class="text-center">Nama</th>
+                        <th class="text-left">Username</th>
+                        <th class="text-left">Nama</th>
                         <th class="text-center">Role</th>
                         <th class="text-center" width="150px">Aksi</th>
                     </tr>

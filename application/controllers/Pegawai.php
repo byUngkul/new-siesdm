@@ -1,14 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class PajakAbt extends CI_Controller
+class Pegawai extends CI_Controller
 {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('pajak_model');
-		$this->load->model('sumur_model');
-		$this->load->model('perusahaan_model');
+		$this->load->model('pegawai_model');
 	}
 
 	public function index()
@@ -18,10 +16,9 @@ class PajakAbt extends CI_Controller
 
 		$data = [
 			'title' => 'Data Pajak Air',
-			'parent_menu' => 'abt',
-			'child_menu' => 'pajak_air',
-			'js_file' => 'pajak-air/js_file',
-			'view' => 'pajak-air/index'
+			'parent_menu' => 'pegawai',
+			'js_file' => 'pegawai/js_file',
+			'view' => 'pegawai/index'
 		];
 
 		$this->load->view('layout', $data);
@@ -29,31 +26,25 @@ class PajakAbt extends CI_Controller
 
 	public function ajax_list()
 	{
-		$list = $this->pajak_model->datagrid();
+		$list = $this->pegawai_model->datagrid();
 		$data = array();
 		$no = $_POST['start'];
-		// $satuan = ' m<sup>3</sup>';
 		foreach ($list as $val) {
 			$no++;
-			$aktip = (date('Y-m-d', strtotime($val->tgl_ahir_sipa)) < date('Y-m-d'))
-				? '<button class="btn btn-danger btn-sm" disabled>Izin Habis</button>'
-				: '<button class="btn btn-info btn-sm" disabled>Aktip</button>';
 			$row = array();
 			$row[] = $no;
-			$row[] = $val->nama_perusahaan;
-			$row[] = $val->no_sumur;
-			$row[] = ($val->status_izin == 1) ? 'Berizin' : 'Tidak Berizin';
-			$row[] = number_format($val->nilai_pjk, 0, ',', '.');
-			$row[] = $this->tanggal->date_indo($val->tgl_pjk);
-			$row[] = $this->_action($val->id_pjk);
+			$row[] = $val->nama_pegawai;
+			$row[] = $val->jabatan_pegawai;
+			$row[] = $val->nip_pegawai;
+			$row[] = $this->_action($val->id_pegawai);
 
 			$data[] = $row;
 		}
 
 		$output = array(
 			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->pajak_model->count_all(),
-			"recordsFiltered" => $this->pajak_model->count_filtered(),
+			"recordsTotal" => $this->pegawai_model->count_all(),
+			"recordsFiltered" => $this->pegawai_model->count_filtered(),
 			"data" => $data,
 		);
 
@@ -63,7 +54,7 @@ class PajakAbt extends CI_Controller
 	public function _action($id = null)
 	{
 		$btn = "<div class='btn-group btn-group-sm' role='group' aria-label='Button aksi'>
-					<a href='pajakabt/edit/$id' title='Ubah Data' class='btn btn-warning btn-sm'>
+					<a href='pegawai/edit/$id' title='Ubah Data' class='btn btn-warning btn-sm'>
 						<i class='fas fa-edit'></i>
 					</a>
 					<button class='btn btn-danger btn-sm' title='Hapus data' onclick='deleteDialog($id)'>
@@ -88,11 +79,10 @@ class PajakAbt extends CI_Controller
 
 		$data = [
 			'title' => 'Tambah Data [PAJAK AIR]',
-			'parent_menu' => 'abt',
+			'parent_menu' => 'pegawai',
 			'child_menu' => 'pajak_air',
-			'js_file' => 'pajak-air/js_file',
-			'view' => 'pajak-air/tambah',
-			'perusahaan' => $this->perusahaan_model->get_alldata()->result_array(),
+			'js_file' => 'pegawai/js_file',
+			'view' => 'pegawai/tambah'
 		];
 
 		$this->load->view('layout', $data);
@@ -105,13 +95,11 @@ class PajakAbt extends CI_Controller
 
 		$data = [
 			'title' => 'Edit Data [PAJAK AIR]',
-			'parent_menu' => 'abt',
+			'parent_menu' => 'pegawai',
 			'child_menu' => 'pajak_air',
-			'js_file' => 'pajak-air/js_file',
-			'view' => 'pajak-air/edit',
-			'sumur' => $this->sumur_model->get_data_byid($id),
-			'perusahaan' => $this->perusahaan_model->get_alldata()->result_array(),
-			'pajakabt' => $this->pajak_model->getById($id)
+			'js_file' => 'pegawai/js_file',
+			'view' => 'pegawai/edit',
+			'pegawai' => $this->pegawai_model->get_by_id($id),
 		];
 
 		$this->load->view('layout', $data);
@@ -121,15 +109,15 @@ class PajakAbt extends CI_Controller
 	{
 		$post = $this->input->post();
 
-		if ($post['id_pjk'] == '') {
-			$this->pajak_model->save();
+		if ($post['id_pegawai'] == '') {
+			$this->pegawai_model->add();
 			$this->session->set_flashdata('success', 'Data berhasil di simpan');
 		} else {
-			$this->pajak_model->update();
+			$this->pegawai_model->update();
 			$this->session->set_flashdata('success', 'Data berhasil di ubah');
 		}
 
-		redirect('pajakabt');
+		redirect('pegawai');
 	}
 
 	public function delete()
@@ -138,7 +126,7 @@ class PajakAbt extends CI_Controller
 		$this->acl->_cek_have_permission($this->uri->segments);
 		$post = $this->input->post();
 
-		if ($this->pajak_model->delete($post['id'])) {
+		if ($this->pegawai_model->delete($post['id'])) {
 			echo json_encode(['data' => 'success']);
 		}
 	}

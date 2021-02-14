@@ -36,12 +36,12 @@
       <div class="bg-white py-2 collapse-inner rounded">
         <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'sumur') ? 'active' : '' ?>" href="<?= base_url(); ?>sumur">Data Sumur</a>
         <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'ambil_air') ? 'active' : '' ?>" href="<?= base_url(); ?>penggunaanair">Data Pengambilan Air</a>
-        <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'pajak_air') ? 'active' : '' ?>" href="<?= base_url(); ?>">Data Pajak ABT</a>
+        <a class="collapse-item <?= (isset($child_menu) && $child_menu == 'pajak_air') ? 'active' : '' ?>" href="<?= base_url(); ?>pajakabt">Data Pajak ABT</a>
       </div>
     </div>
   </li>
 
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDua" aria-expanded="true" aria-controls="collapseTwo">
       <i class="fas fa-fw fa-bolt"></i>
       <span>Tambang</span>
@@ -51,7 +51,7 @@
         <a class="collapse-item" href="#">Sumur</a>
       </div>
     </div>
-  </li>
+  </li> -->
 
   <!-- Divider -->
   <hr class="sidebar-divider">
@@ -70,7 +70,7 @@
 
   <!-- Nav Item - Tables -->
   <li class="nav-item <?= (isset($parent_menu) && $parent_menu == 'pegawai') ? 'active' : '' ?>">
-    <a class="nav-link" href="#">
+    <a class="nav-link" href="<?= base_url('pegawai') ?>">
       <i class="fas fa-fw fa-users"></i>
       <span>Pegawai</span></a>
   </li>

@@ -172,9 +172,9 @@ class User extends CI_Controller
 
 				$data = [
 					'username' => $post["username"],
-					'password' => ($post["password"] == '') ? $password_lama : $this->acl->generate_password($post["password"]),
+					'password' => ($post["password"] == '') ? $password_lama['password'] : $this->acl->generate_password($post["password"]),
 					'id_pegawai' => $post["id_pegawai"],
-					'id_role' => $post["role"],
+					'id_role' => $post["id_role"],
 				];
 
 				$this->user_model->update($post['id_user'], $data);

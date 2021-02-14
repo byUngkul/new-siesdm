@@ -1,165 +1,70 @@
 <?php
-/**
- * 
- */
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Pajak_model extends CI_Model{
 	
-	//public $wilayah = $_GET['wil'];
+	protected $table = 't_pajak a';
+	protected $column_order = array(null, 'nama_perusahaan', 'no_sumur', 'status_izin', 'nilai_pjk', 'tgl_pjk');
+	protected $column_search = array('nama_perusahaan', 'no_sumur');
+	protected $order = array('tgl_pjk' => 'desc');
 
-	public function getAll(){
-		$this->db->select('*');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
+	public function _get_query_data()
+	{
+		$this->db->from($this->table);
+		$this->db->join('t_perusahaan p', 'p.id_perusahaan = a.id_pers');
+		$this->db->join('t_sumur s', 's.id_sumur = a.id_smr');
+		$this->db->join('t_kota k', 'p.id_kota = k.id');
+		$i = 0;
 
-		return $this->db->get();
+		foreach ($this->column_search as $item) // loop column 
+		{
+			if ($_POST['search']['value']) // if datatable send POST for search
+			{
+
+				if ($i === 0) {
+					$this->db->group_start();
+					$this->db->like($item, $_POST['search']['value']);
+				} else {
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+
+				if (count($this->column_search) - 1 == $i) {
+					$this->db->group_end();
+				}
+			}
+			$i++;
+		}
+
+		if (isset($_POST['order'])) {
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		} else if (isset($this->order)) {
+			$order = $this->order;
+			$this->db->order_by(key($order), $order[key($order)]);
+		}
 	}
 
-	public function getWilayah($wilayah){
-		$this->db->select('*');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
-		$this->db->where('t_perusahaan.id_kota', $wilayah);
-		$this->db->order_by('tgl_pjk', 'asc');
-		return $this->db->get();
+	public function datagrid()
+	{
+		$this->_get_query_data();
+
+		if ($_POST['length'] != -1) {
+			$this->db->limit($_POST['length'], $_POST['start']);
+		}
+		$query = $this->db->get();
+		return $query->result();
 	}
 
-	public function getByIzin($izin){
-		$this->db->select('*');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
-		$this->db->where('status_izin', $izin);
-		$this->db->order_by('tgl_pjk', 'asc');
-		return $this->db->get()->result();
+	public function count_all()
+	{
+		$this->db->from($this->table);
+		return $this->db->count_all_results();
 	}
 
-	public function getByIzinPerwil($izin, $wilayah){
-		$this->db->select('*');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
-		$this->db->where('status_izin', $izin);
-		$this->db->where('t_perusahaan.id_kota', $wilayah);
-		$this->db->order_by('tgl_pjk', 'asc');
-		return $this->db->get()->result();
-	}
-
-	public function viewByDate($date){
-		$this->db->select('*');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
-		$this->db->where('DATE(tgl_pjk)', $date);
-
-		return $this->db->get()->result();
-	}
-
-	public function viewByDatePerwil($date, $wilayah){
-		$this->db->select('*');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
-		$this->db->where('DATE(tgl_pjk)', $date);
-		$this->db->where('t_perusahaan.id_kota', $wilayah);
-
-		return $this->db->get()->result();
-	}
-
-	public function viewByMonth($month, $year){
-		$this->db->select('*');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
-		$this->db->where('MONTH(tgl_pjk)', $month);
-		$this->db->where('YEAR(tgl_pjk)', $year);
-
-		return $this->db->get()->result();
-	}
-
-	public function viewByMonthPerwil($month, $year, $wilayah){
-		$this->db->select('*');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
-		$this->db->where('MONTH(tgl_pjk)', $month);
-		$this->db->where('YEAR(tgl_pjk)', $year);
-		$this->db->where('t_perusahaan.id_kota', $wilayah);
-
-		return $this->db->get()->result();
-	}
-
-	public function viewByYear($year){
-		$this->db->select('*');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
-		$this->db->where('YEAR(tgl_pjk)', $year);
-
-		return $this->db->get()->result();
-	}
-
-	public function viewByYearPerwil($year, $wilayah){
-		$this->db->select('*');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
-		$this->db->where('YEAR(tgl_pjk)', $year);
-		$this->db->where('t_perusahaan.id_kota', $wilayah);
-
-		return $this->db->get()->result();
-	}
-
-	public function viewByPerusahaan($id_pers){
-		$this->db->select('t_pajak.*, t_perusahaan.*, t_sumur.*');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
-		$this->db->where('id_pers', $id_pers);
-		$this->db->order_by('tgl_pjk', 'asc');
-		//$this->db->where('t_perusahaan.id_kota', $wilayah);
-
-		return $this->db->get()->result();
-	}
-
-	public function viewByPerusahaanPerwil($id_pers, $wilayah){
-		$this->db->select('t_pajak.*, t_perusahaan.*, t_sumur.*');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
-		$this->db->where('id_pers', $id_pers);
-		$this->db->where('t_perusahaan.id_kota', $wilayah);
-		$this->db->order_by('tgl_pjk', 'asc');
-
-		return $this->db->get()->result();
-	}
-
-	public function option_tahun(){
-		$this->db->select('YEAR(tgl_pjk) AS tahun');
-		$this->db->from('t_pajak');
-		$this->db->join('t_perusahaan', 't_perusahaan.id_perusahaan = t_pajak.id_pers', 'left');
-		$this->db->join('t_sumur', 't_sumur.id_sumur = t_pajak.id_smr', 'left');
-		$this->db->order_by('YEAR(tgl_pjk)');
-		$this->db->group_by('YEAR(tgl_pjk)');
-
-		return $this->db->get()->result();
-	}
-
-	public function getPerusahaan(){
-		
-		return $this->db->get('t_perusahaan')->result();
-	}
-
-	public function getSumur($id_perusahaan){
-		$this->db->where('id_perusahaan', $id_perusahaan);
-    	$result = $this->db->get('t_sumur')->result(); // Tampilkan semua data kota berdasarkan id provinsi
-    
-    	return $result;
-	}
-
-	public function getById_sumur($id_sumur){
-		return $this->db->get_where('t_pajak', ["id_smr" => $id_sumur]);
+	function count_filtered()
+	{
+		$this->_get_query_data();
+		$query = $this->db->get();
+		return $query->num_rows();
 	}
 
 	public function getById($id_pjk){
@@ -172,26 +77,27 @@ class Pajak_model extends CI_Model{
 			'id_pers'   => $post["id_perusahaan"],
 			'id_smr'    => $post["id_sumur"],
 			'nilai_pjk' => $post["nilai_pajak"],
-			'tgl_pjk'   => date('Y-m-d',strtotime($post["tgl_pjk"]))
+			'tgl_pjk'   => $this->tanggal->date_indo($post["tgl_bayar"])
 		);
-		//var_dump($data);
+		
 		$this->db->insert('t_pajak', $data);
 	}
 
 	public function update(){
 		$post = $this->input->post();
 		$data = array(
-			'id_pjk'    => $post["id_pjk"],
 			'id_pers'   => $post["id_perusahaan"],
 			'id_smr'    => $post["id_sumur"],
 			'nilai_pjk' => $post["nilai_pajak"],
-			'tgl_pjk'   => date('Y-m-d',strtotime($post["tgl_pjk"]))
+			'tgl_pjk'   => $this->tanggal->date_indo($post["tgl_bayar"])
 		);
-		//var_dump($post);
+		
 		$this->db->update('t_pajak', $data, array('id_pjk' => $post["id_pjk"]));
 	}
 
-	public function delete($id_pjk){
-		return $this->db->delete('t_pajak', array('id_pjk' => $id_pjk));
+	public function delete($id){
+		return $this->db->delete('t_pajak', array(
+			'id_pjk' => $id
+		));
 	}
 }
