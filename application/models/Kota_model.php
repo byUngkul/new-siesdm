@@ -1,5 +1,6 @@
 <?php
-if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+('BASEPATH') OR exit('No direct script access allowed');
+
 class Kota_model extends CI_Model {
   
   public function getData(){
@@ -7,4 +8,11 @@ class Kota_model extends CI_Model {
             ->get('t_kota')
             ->result(); 
   }
+
+	public function getById($id)
+	{
+		return $this->db->get_where('t_kota', [
+			'id' => $id
+			])->row_array();
+	}
 }

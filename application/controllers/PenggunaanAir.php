@@ -37,7 +37,7 @@ class PenggunaanAir extends CI_Controller
 			$no++;
 			$aktip = (date('Y-m-d', strtotime($val->tgl_ahir_sipa)) < date('Y-m-d'))
 				? '<button class="btn btn-danger btn-sm" disabled>Izin Habis</button>'
-				: '<button class="btn btn-info btn-sm" disabled>Berlaku</button>';
+				: '<button class="btn btn-info btn-sm" disabled>Aktip</button>';
 			$row = array();
 			$row[] = $no;
 			$row[] = $val->nama_perusahaan;

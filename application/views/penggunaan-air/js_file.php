@@ -27,6 +27,7 @@
         <?php endif ?>
     });
 
+	var id_perusahaan = document.getElementById('id_perusahaan');
     var table = $('#tabelPenggunaanAir').dataTable({
         "processing": true,
         "serverSide": true,
@@ -169,8 +170,7 @@
 			}
 		});
 	});
-	
-	var id_perusahaan = document.getElementById('id_perusahaan');
+
 	if(typeof(id_perusahaan) != 'undefined' && id_perusahaan != null){
 
 		var perusahaan_dropdown = new BVSelect({

@@ -5,7 +5,7 @@
 
 <div class="card shadow-sm mb-4">
     
-    <form action="<?= base_url('sumur/simpan') ?>" method="POST" enctype="multipart/form-data">
+    <form action="<?= base_url('sumur/createOrUpdate') ?>" method="POST" enctype="multipart/form-data">
         <div class="card-body">
             <?php $this->load->view('sumur/form'); ?>
         </div>

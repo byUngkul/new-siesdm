@@ -98,7 +98,7 @@ th {
 	text-transform: uppercase;
 	padding: 2px;
 	border: 1px solid #000 !important;
-	background: #eee;
+	background: rgb(107, 137, 235);
 }
 
 tr.footer {

@@ -52,7 +52,7 @@ class Perusahaan_model extends CI_Model
 		return $query->result();
 	}
 
-	public function get_alldata($param)
+	public function get_alldata($param = null)
 	{
 		if ($param['wilayah'] != '') {
 			$this->db->where('id_kota', $param['wilayah']);
@@ -65,7 +65,7 @@ class Perusahaan_model extends CI_Model
 		if ($param['tgl_pendataan'] != '') {
 			$this->db->where("DATE_FORMAT(created_at, '%d-%m-%Y') =", $param['tgl_pendataan']);
 		}
-		$this->db->select('nama_perusahaan, nama_pemilik, jns_usaha, tlp_perusahaan, email, kontak_person, tlp_person, alamat_perusahaan, luas_area, nama_kota')
+		$this->db->select('*')
 			->join('t_kota', 'id = id_kota');
 
 		return $this->db->get('t_perusahaan');
@@ -133,7 +133,9 @@ class Perusahaan_model extends CI_Model
 				'luas_area' => $post["luas_area"],
 				'alamat_perusahaan' => $post["alamat_perusahaan"],
 				'id_kota' => $post["wilayah"],
-				'poto_perusahaan' => json_encode($prsh_poto)
+				'poto_perusahaan' => json_encode($prsh_poto),
+				'input_by' => $this->session->userdata('id_user'),
+				'created_at' => date('Y-m-d H:m:s', time())
 			);
 
 			$this->db->insert('t_perusahaan', $data);
@@ -158,6 +160,8 @@ class Perusahaan_model extends CI_Model
 			'luas_area' => $post["luas_area"],
 			'alamat_perusahaan' => strtoupper($post["alamat_perusahaan"]),
 			'id_kota' => $post["wilayah"],
+			'input_by' => $this->session->userdata('id_user'),
+			'updated_at' => date('Y-m-d H:m:s', time())
 			// 'poto_perusahaan' => $this->_upload('./uploads/poto_perusahaan/', 'pdf|jpg|jpeg|png', 'IMG_1_' . $post["nama_perusahaan"], 'poto1', $post["id_perusahaan"], 'poto_perusahaan'),
 			// 'poto_perusahaan2' => $this->_upload('./uploads/poto_perusahaan/', 'pdf|jpg|jpeg|png', 'IMG_2_' . $post["nama_perusahaan"], 'poto2', $post["id_perusahaan"], 'poto_perusahaan2')
 		);

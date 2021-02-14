@@ -21,6 +21,7 @@ class Perusahaan extends CI_Controller
 			'parent_menu' => 'perusahaan',
 			'view' => 'perusahaan/index',
 			'js_file' => 'perusahaan/js_file',
+			'wilayah' => $this->kota_model->getData()
 		];
 
 		$this->load->view('layout', $data);
@@ -111,11 +112,11 @@ class Perusahaan extends CI_Controller
 
 		if ($this->input->post('id_perusahaan') == null) {
 			$this->perusahaan_model->add();
+			$this->session->set_flashdata('success', 'Data berhasil di simpan');
 		} else {
 			$this->perusahaan_model->update();
+			$this->session->set_flashdata('success', 'Data berhasil di update');
 		}
-
-		$this->session->set_flashdata('success', 'Data berhasil di simpan');
 
 		redirect('perusahaan');
 	}

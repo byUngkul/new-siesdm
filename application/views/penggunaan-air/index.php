@@ -7,12 +7,12 @@
 	<div class="card-header py-3">
 		<div class='btn-group btn-group-sm float-right' role='group'>
 			<a href="<?= base_url('penggunaanair/tambah') ?>" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Tambah</a>
-			<button class="btn btn-success" data-toggle="modal" data-target="#cetakDialog"><i class="fas fa-print"></i> Cetak</button>
+			<!-- <button class="btn btn-success" data-toggle="modal" data-target="#cetakDialog"><i class="fas fa-print"></i> Cetak</button> -->
 		</div>
 	</div>
 	<div class="card-body">
-		<div class="table-responsive">
-			<table class="table table-striped" id="tabelPenggunaanAir">
+		<div class="table-responsive-md">
+			<table class="table table-hover table-striped table-sm" id="tabelPenggunaanAir">
 				<thead class="bg-info text-white">
 					<tr>
 						<th class="text-center">No</th>
@@ -48,8 +48,8 @@
 				<input type="text" name="messageDialog" id="messageDialog" class="form-control form-control-sm" value="Yakin akan hapus data ini?" readonly>
 			</div>
 			<div class="modal-footer">
-				<button type="button" id="btnHapus" class="btn btn-sm btn-warning float-right"><i class="fas fa-trash"></i> Hapus</button>
-				<button type="button" class="btn btn-sm btn-danger float-right" data-dismiss="modal">Close</button>
+				<button type="button" id="btnHapus" class="btn btn-sm btn-danger float-right"><i class="fas fa-trash"></i> Hapus</button>
+				<button type="button" class="btn btn-sm btn-danger float-info" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>

@@ -66,17 +66,17 @@
 	<label class="col-sm-2 col-form-label col-form-label-sm mr-0 pr-0">Koordinat</label>
 	<div class="col-sm-2 px-0">
 		<div class="input-group row pl-2">
-			<input type="text" class="form-control form-control-sm col-sm-4" value="<?= isset($sumur['koor_d_ls']) ? $sumur['koor_d_ls'] : '' ?>" placeholder="00&deg;">
-			<input type="text" class="form-control form-control-sm col-sm-4" value="<?= isset($sumur['koor_m_ls']) ? $sumur['koor_m_ls'] : '' ?>" placeholder="00&#8216;">
-			<input type="text" class="form-control form-control-sm col-sm-4" value="<?= isset($sumur['koor_s_ls']) ? $sumur['koor_s_ls'] : '' ?>" placeholder="00.00&#8220;">
+			<input type="text" class="form-control form-control-sm col-sm-3" id="koor_d_ls" name="koor_d_ls" value="<?= isset($sumur['koor_d_ls']) ? $sumur['koor_d_ls'] : '' ?>" placeholder="00&deg;">
+			<input type="text" class="form-control form-control-sm col-sm-3" id="koor_m_ls" name="koor_m_ls" value="<?= isset($sumur['koor_m_ls']) ? $sumur['koor_m_ls'] : '' ?>" placeholder="00&#8216;">
+			<input type="text" class="form-control form-control-sm col-sm-5" id="koor_s_ls" name="koor_s_ls" value="<?= isset($sumur['koor_s_ls']) ? $sumur['koor_s_ls'] : '' ?>" placeholder="00.00&#8220;">
 		</div>
 	</div>
 	<span class="col-sm-1 col-form-label col-form-label-sm m-0 p-0">L/S</span>
 	<div class="col-sm-2">
 		<div class="input-group row pl-2">
-			<input type="text" class="form-control form-control-sm col-sm-4" value="<?= isset($sumur['koor_d_bt']) ? $sumur['koor_d_bt'] : '' ?>" placeholder="&deg;">
-			<input type="text" class="form-control form-control-sm col-sm-4" value="<?= isset($sumur['koor_m_bt']) ? $sumur['koor_m_bt'] : '' ?>" placeholder="&#8216;">
-			<input type="text" class="form-control form-control-sm col-sm-4" value="<?= isset($sumur['koor_s_bt']) ? $sumur['koor_s_bt'] : '' ?>" placeholder="&#8220;">
+			<input type="text" class="form-control form-control-sm col-sm-3" id="koor_d_bt" name="koor_d_bt" value="<?= isset($sumur['koor_d_bt']) ? $sumur['koor_d_bt'] : '' ?>" placeholder="00&deg;">
+			<input type="text" class="form-control form-control-sm col-sm-3" id="koor_m_bt" name="koor_m_bt" value="<?= isset($sumur['koor_m_bt']) ? $sumur['koor_m_bt'] : '' ?>" placeholder="00&#8216;">
+			<input type="text" class="form-control form-control-sm col-sm-5" id="koor_s_bt" name="koor_s_bt" value="<?= isset($sumur['koor_s_bt']) ? $sumur['koor_s_bt'] : '' ?>" placeholder="00.00&#8220;">
 		</div>
 	</div>
 	<span class="col-sm-1 col-form-label col-form-label-sm m-0 p-0">B/T</span>
@@ -131,10 +131,11 @@
 <div class="pb-3"></div>
 
 <div class="form-row">
-	<label class="col-sm-2 col-form-label col-form-label-sm mr-0 pr-0">Kedalamamn Sumur</label>
-	<div class="form-group col-md-3 pl-0 ml-0">
+	<label class="col-sm-2 col-form-label col-form-label-sm mr-0 pr-0">Kedalaman Sumur</label>
+	<div class="form-group col-md-2 pl-0 ml-0">
 		<input type="text" class="form-control form-control-sm" name="kedalaman_sumur" id="kedalaman_sumur" value="<?= isset($sumur['kedalaman_sumur']) ? $sumur['kedalaman_sumur'] : '' ?>">
 	</div>
+	<div class="col-md-1"></div>
 	<label class="col-sm-2 col-form-label col-form-label-sm mr-0 pr-0">Debit Izin</label>
 	<div class="form-group col-md-2 pl-0 ml-0">
 		<input type="text" class="form-control form-control-sm" name="debit_izin" id="debit_izin" value="<?= isset($sumur['debit_izin']) ? $sumur['debit_izin'] : '' ?>">

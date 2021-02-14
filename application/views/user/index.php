@@ -8,8 +8,8 @@
         <a href="<?= base_url('user/tambah') ?>" class="btn btn-primary float-right">Tambah</a>
     </div>
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-striped" id="table_user">
+        <div class="table-responsive-md">
+            <table class="table table-hover table-striped table-sm" id="table_user">
                 <thead class="bg-info text-white">
                     <tr>
                         <th class="text-center">No</th>

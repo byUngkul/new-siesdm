@@ -9,6 +9,7 @@ class Sumur extends CI_Controller
 		$this->load->model('sumur_model');
 		$this->load->model('perusahaan_model');
 		$this->load->model('jenis_sumur_model');
+		$this->load->model('kota_model');
 	}
 
 	public function index()
@@ -21,7 +22,9 @@ class Sumur extends CI_Controller
 			'parent_menu' => 'abt',
 			'child_menu' => 'sumur',
 			'js_file' => 'sumur/js_file',
-			'view' => 'sumur/index'
+			'view' => 'sumur/index',
+			'jenis_sumur' => $this->jenis_sumur_model->get_alldata()->result_array(),
+			'wilayah' => $this->kota_model->getData()
 		];
 
 		$this->load->view('layout', $data);
@@ -33,10 +36,10 @@ class Sumur extends CI_Controller
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $val) {
-            $no++;
-            $aktip = (date('Y-m-d', strtotime($val->tgl_ahir_sipa)) < date('Y-m-d')) 
-                    ? '<button class="btn btn-danger btn-sm" disabled>Izin Habis</button>' 
-                    : '<button class="btn btn-info btn-sm" disabled>Berlaku</button>';
+			$no++;
+			$aktip = (date('Y-m-d', strtotime($val->tgl_ahir_sipa)) < date('Y-m-d'))
+				? '<button class="btn btn-danger btn-sm" disabled>Izin Habis</button>'
+				: '<button class="btn btn-info btn-sm" disabled>Aktip</button>';
 			$row = array();
 			$row[] = $no;
 			$row[] = $val->nama_perusahaan;
@@ -95,12 +98,12 @@ class Sumur extends CI_Controller
 
 		$this->load->view('layout', $data);
 	}
-	
+
 	public function edit($id)
 	{
 		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
-		
+
 		$data = [
 			'title' => 'Edit Data [SUMUR]',
 			'parent_menu' => 'abt',
@@ -111,18 +114,65 @@ class Sumur extends CI_Controller
 			'perusahaan' => $this->perusahaan_model->get_alldata()->result_array(),
 			'jenis_sumur' => $this->jenis_sumur_model->get_alldata()->result_array(),
 		];
-		
-		$this->load->view('layout', $data);	
+
+		$this->load->view('layout', $data);
 	}
 
-	public function simpan()
+	public function createOrUpdate()
 	{
+		if ($this->input->post('id_sumur') == '') {
+			$this->sumur_model->add();
+			$this->session->set_flashdata('success', 'Data berhasil di simpan');
+		} else {
+			$this->sumur_model->update();
+			$this->session->set_flashdata('success', 'Data berhasil di update');
+		}
+
+
 		redirect('sumur');
 	}
 
-	public function delete($id)
+	public function delete()
 	{
 		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
+		$post = $this->input->post();
+
+		if ($this->sumur_model->delete($post['id'])) {
+			echo json_encode(['data' => 'success']);
+		}
+	}
+
+	public function cetak_pdf()
+	{
+		$param = $this->input->get();
+
+		$data = $this->sumur_model->get_data_cetak($param);
+		ini_set("memory_limit", "512M");
+		ini_set('max_execution_time', 300);
+		set_time_limit(300);
+		$pdf = new \Mpdf\Mpdf([
+			'mode' => 'utf-8',
+			'format' => [210, 330],
+			'orientation' => 'L'
+		]);
+		$pdf->packTableData = true;
+		$view = $this->load->view('sumur/export/cetak', [
+			'data' => $data,
+			'kota' => ($param['wilayah'] != '') ? $this->kota_model->getById($param['wilayah']) : null 
+		], true);
+		$pdf->WriteHTML($view);
+		$pdf->Output();
+	}
+
+	public function cetak_excel()
+	{
+		$param = $this->input->get();
+		$data = $this->sumur_model->get_data_cetak($param);
+
+		$this->load->view('sumur/export/excel', [
+			'data' => $data,
+			'filter' => $param
+		]);
 	}
 }

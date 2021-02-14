@@ -13,8 +13,8 @@
         </div>
     </div>
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-striped" id="tabelPerusahaan">
+        <div class="table-responsive-md">
+            <table class="table table-hover table-striped table-sm" id="tabelPerusahaan">
                 <thead class="bg-info text-white">
                     <tr>
                         <th class="text-center">No</th>
@@ -35,7 +35,7 @@
 <div class="modal fade" id="cetakDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header  bg-gray-300">
                 <h5 class="modal-title" id="exampleModalLabel">Cetak Data</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -86,8 +86,8 @@
 				<input type="text" name="messageDialog" id="messageDialog" class="form-control form-control-sm" value="Yakin akan hapus data ini?" readonly>
 			</div>
 			<div class="modal-footer">
-				<button type="button" id="btnHapus" class="btn btn-sm btn-warning float-right"><i class="fas fa-trash"></i> Hapus</button>
-				<button type="button" class="btn btn-sm btn-danger float-right" data-dismiss="modal">Close</button>
+				<button type="button" id="btnHapus" class="btn btn-sm btn-danger float-right"><i class="fas fa-trash"></i> Hapus</button>
+				<button type="button" class="btn btn-sm btn-info float-right" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
