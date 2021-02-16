@@ -52,6 +52,11 @@ class User_model extends CI_Model
 		$this->db->update('t_users', $data, array('id_user' => $iduser));
 	}
 
+	public function update_password($password, $iduser)
+	{
+		$this->db->update('t_users', ['password' => $password], ['id_user' => $iduser]);
+	}
+
 	public function datagrid()
 	{
 		$this->_get_query_data();

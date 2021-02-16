@@ -39,6 +39,10 @@ class Acl
 			$current_url[2] = (isset($current_url[2])) ? $current_url[2] : 'index';
 			$id_menu = $this->CI->permission_m->get_permission_by_menu($current_url[1], $current_url[2]);
 			$permission_user = $this->CI->session->userdata('permission');
+			// var_dump($id_menu); 
+			// var_dump($permission_user);
+			// die; 
+
 			if (!in_array($id_menu['id_permission'], $permission_user)) {
 				$this->CI->session->set_flashdata('no_permit', 'anda tidak punya akses!');
 				redirect('dashboard');

@@ -9,6 +9,7 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->model('user_model');
 		$this->load->model('permission_m');
+		$this->load->model('pegawai_model');
     }
 
     public function index()
@@ -34,19 +35,21 @@ class Auth extends CI_Controller
         } else {
             if (password_verify($password, $user->password)) {
                 $permission = $this->acl->list_permission($user->id_user);
-				
+				$pegawai = ($user->id_pegawai == null) ? [] : $this->pegawai_model->get_by_id($user->id_pegawai);
+
                 $session = [
                     'authenticated' => true,
                     'id_user' => $user->id_user,
                     'username' => $user->username,
-                    'nama' => $user->username,
+                    'nama' => ($user->id_pegawai == null) ? $user->username : $pegawai['nama_pegawai'],
                     'role' => $user->id_role,
-                    'permission' => $permission
+					'id_bidang' => $user->id_bidang,
+                    'permission' => $permission,
                 ];
-
+				
                 $this->session->set_userdata($session);
                 $this->session->set_flashdata('welcome', 'Selamat datang ' . $session['nama']);
-                redirect('dashboard');
+                redirect('/');
             } else {
                 $this->session->set_flashdata('message', 'User atau Password salah!');
                 redirect('auth');

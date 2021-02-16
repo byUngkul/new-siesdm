@@ -13,10 +13,13 @@ class Dashboard extends CI_Controller{
 
 	public function index()
 	{
+		$this->acl->_check_not_login();
+		
 		$data = [
 			'title' => 'Home',
 			'parent_menu' => 'home',
 			'view' => 'home',
+			'js_file' => 'js_home',
 			'data_dinas' => $this->dinas_m->get_data()->row_array()
 		];
 		

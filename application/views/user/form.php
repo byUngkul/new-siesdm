@@ -55,3 +55,14 @@
 		</span>
 	</div>
 </div>
+
+<div class="form-row  mb-2">
+	<label class="col-md-2 col-form-label col-form-label-sm mr-0 pr-0">Bidang</label>
+	<div class="col-md-3 pl-0 ml-0">
+		<select name="id_bidang" id="id_bidang" class="form-control form-control-sm">
+			<option value="">Pilih</option>
+			<option <?= (isset($user) && $user->id_bidang == '1') ? 'selected' : '' ?> value="1">Air Tanah</option>
+			<option <?= (isset($user) && $user->id_bidang == '2') ? 'selected' : '' ?> value="2">Pertambangan</option>
+		</select>
+	</div>
+</div>

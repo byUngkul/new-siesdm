@@ -186,6 +186,41 @@ class User extends CI_Controller
 		}
 	}
 
+	public function ubah_password()
+	{
+		$this->acl->_check_not_login();
+
+
+		$data = [
+			'title' => 'Ubah Password',
+			'parent_menu' => '',
+			'js_file' => 'user/js_file',
+			'view' => 'user/ubah_password',
+			'roles' => $this->user_model->get_data_role(),
+			'pegawais' => $this->pegawai_model->get_all_data(),
+			'id_user' => $this->session->userdata('id_user')
+		];
+
+		$this->load->view('layout', $data);
+	}
+
+	public function simpan_password()
+	{
+		$post = $this->input->post();
+
+		$this->form_validation->set_rules('password_lama', 'Password Lama', 'callback_password_check');
+		$this->form_validation->set_rules('password', 'Password', 'required');
+		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->ubah_password();
+		} else {
+			$this->user_model->update_password($this->acl->generate_password($post["password"]), $post['id_user']);
+			$this->session->set_flashdata('success', 'Password berhasil di ganti');
+			$this->ubah_password();
+		}
+	}
+
 	public function simpan_permission()
 	{
 		$post = $this->input->post();
@@ -221,5 +256,18 @@ class User extends CI_Controller
 		}
 
 		redirect('user');
+	}
+
+	public function password_check($password_lama)
+	{
+		$post = $this->input->post();
+		$user = $this->user_model->getById($post['id_user']);
+
+		if (password_verify($password_lama, $user->password)) {
+			return TRUE;
+		} else {
+			$this->form_validation->set_message('password_check', 'Password lama tidak sama');
+			return FALSE;
+		}
 	}
 }

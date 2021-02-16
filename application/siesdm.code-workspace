@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../siesdm"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}

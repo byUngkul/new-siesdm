@@ -12,7 +12,7 @@
 		</div>
 		<div class="card-footer pb-5">
 			<button class="btn btn-primary btn-sm float-right">Update</button>
-			<a href="<?= base_url('perusahaan') ?>" class="btn btn-info btn-sm float-right mr-2">Kembali</a>
+			<a href="<?= base_url('user') ?>" class="btn btn-info btn-sm float-right mr-2">Kembali</a>
 		</div>
 	</form>
 </div>
