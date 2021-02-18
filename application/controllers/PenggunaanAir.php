@@ -89,6 +89,8 @@ class PenggunaanAir extends CI_Controller
 	{
 		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
+		$session = $this->session->userdata();
+		$param['wilayah'] = ($session['id_wilayah'] == null) ? '' : $session['id_wilayah'];
 
 		$data = [
 			'title' => 'Tambah Data [PENGGUNAAN AIR]',
@@ -96,7 +98,7 @@ class PenggunaanAir extends CI_Controller
 			'child_menu' => 'ambil_air',
 			'js_file' => 'penggunaan-air/js_file',
 			'view' => 'penggunaan-air/tambah',
-			'perusahaan' => $this->perusahaan_model->get_alldata()->result_array(),
+			'perusahaan' => $this->perusahaan_model->get_alldata($param)->result_array(),
 		];
 
 		$this->load->view('layout', $data);
@@ -106,6 +108,8 @@ class PenggunaanAir extends CI_Controller
 	{
 		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
+		$session = $this->session->userdata();
+		$param['wilayah'] = ($session['id_wilayah'] == null) ? '' : $session['id_wilayah'];
 		
 		$data = [
 			'title' => 'Edit Data [SUMUR]',
@@ -114,7 +118,7 @@ class PenggunaanAir extends CI_Controller
 			'js_file' => 'penggunaan-air/js_file',
 			'view' => 'penggunaan-air/edit',
 			'sumur' => $this->sumur_model->get_data_byid($id),
-			'perusahaan' => $this->perusahaan_model->get_alldata()->result_array(),
+			'perusahaan' => $this->perusahaan_model->get_alldata($param)->result_array(),
 			'penggunaanair' => $this->pengambilanair->get_data_byId($id)
 		];
 

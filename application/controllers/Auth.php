@@ -44,6 +44,7 @@ class Auth extends CI_Controller
                     'nama' => ($user->id_pegawai == null) ? $user->username : $pegawai['nama_pegawai'],
                     'role' => $user->id_role,
 					'id_bidang' => $user->id_bidang,
+					'id_wilayah' => $user->id_wilayah,
                     'permission' => $permission,
                 ];
 				

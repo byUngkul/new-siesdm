@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Preview Cetak</title>
+	<!-- <title>Preview Cetak</title> -->
 	<!-- style print -->
 	<link rel="stylesheet" href="<?= base_url(); ?>public/css/print-style.css">
 </head>
@@ -13,11 +13,12 @@
 <body>
 	<div class="container">
 		<div class="body">
-			<div class="header" style="text-align: center;">
-				<h3>DATA SUMUR</h3>
-				<h5><?= ($kota != null) ? $kota['nama_kota'] : '' ?></>
+			<div class="header" style="text-align: center; padding-bottom: 10px;">
+				<span style="font-size: 14px; font-weight: 700;">DATA SUMUR</span>
+				<span style="font-size: 14px; font-weight: 700;"><?= ($kota != null) ? $kota['nama_kota'] : ''
+																	?></span>
 			</div>
-			
+
 			<table class="border thick">
 				<thead>
 					<tr>
@@ -39,25 +40,29 @@
 				<tbody>
 					<?php
 					foreach ($data as $key => $row) {
-						$nilai =  $row->selisih;
 					?>
 						<tr>
 							<td><?= $key + 1; ?></td>
-							<td><?= $row->nama_perusahaan; ?></td>
-							<td><?= $row->nama_kota; ?></td>
-							<td><?= $row->lokasi_sumur; ?></td>
-							<td><?= $row->no_sumur; ?></td>
-							<td><?= $row->jenis_sumur; ?></td>
-							<td><?= $row->no_sipa; ?></td>
-							<td><?= date('d/m/Y', strtotime($row->tgl_terbit_sipa)); ?></td>
-							<td><?= date('d/m/Y', strtotime($row->tgl_ahir_sipa)); ?></td>
-							<td><?= $row->debit_izin; ?></td>
+							<td><?= $row->nama_perusahaan ?></td>
+							<td><?= $row->nama_kota ?></td>
+							<td><?= $row->lokasi_sumur ?></td>
+							<td><?= $row->no_sumur
+								?></td>
+							<td><?= $row->jenis_sumur
+								?></td>
+							<td><?= $row->no_sipa ?></td>
+							<td><?= date('d/m/Y', strtotime($row->tgl_terbit_sipa))
+								?></td>
+							<td><?= date('d/m/Y', strtotime($row->tgl_ahir_sipa))
+								?></td>
+							<td><?= $row->debit_izin ?></td>
 							<td><?= $row->type_zona ?></td>
 							<td>
 								<?php
-								if ($nilai <= '90' && $nilai >= '0') {
+
+								if ($row->selisih <= '90' && $row->selisih >= '0') {
 									echo "Izin akan Habis";
-								} elseif ($nilai <= '0') {
+								} elseif ($row->selisih <= '0') {
 									echo "Izin Habis";
 								} else {
 									echo "Berizin";
@@ -79,7 +84,7 @@
 					</div>
 					<div id="cell">
 						<p><?php //echo $tot_prs;
-								?></p>
+							?></p>
 					</div>
 				</div>
 				<div id="row">
@@ -88,7 +93,7 @@
 					</div>
 					<div id="cell">
 						<p><?php //echo $tot_sumur;
-								?></p>
+							?></p>
 					</div>
 				</div>
 				<div id="row">
@@ -97,7 +102,7 @@
 					</div>
 					<div id="cell">
 						<p><?php //echo $sm_dangkal;
-								?></p>
+							?></p>
 					</div>
 				</div>
 				<div id="row">
@@ -106,7 +111,7 @@
 					</div>
 					<div id="cell">
 						<p><?php //echo $sm_dalam;
-								?></p>
+							?></p>
 					</div>
 				</div>
 				<div id="row">
@@ -115,7 +120,7 @@
 					</div>
 					<div id="cell">
 						<p><?php //echo $sm_imbuhan;
-								?></p>
+							?></p>
 					</div>
 				</div>
 				<div id="row">
@@ -124,7 +129,7 @@
 					</div>
 					<div id="cell">
 						<p><?php //echo $sm_pantau;
-								?></p>
+							?></p>
 					</div>
 				</div>
 				<div id="row">
@@ -133,7 +138,7 @@
 					</div>
 					<div id="cell">
 						<p><?php //echo $sm_asr;
-								?></p>
+							?></p>
 					</div>
 				</div>
 				<div id="row">
@@ -142,7 +147,7 @@
 					</div>
 					<div id="cell">
 						<p><?php //echo $sm_resapan;
-								?></p>
+							?></p>
 					</div>
 				</div>
 			</div> -->

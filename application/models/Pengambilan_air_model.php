@@ -11,6 +11,7 @@ class Pengambilan_air_model extends CI_Model
 
 	public function _get_query_data()
 	{
+		$session = $this->session->userdata();
 		$this->db->from($this->table);
 		$this->db->join('t_perusahaan p', 'p.id_perusahaan = a.id_perusahaan');
 		$this->db->join('t_sumur s', 's.id_sumur = a.id_sumur');
@@ -36,6 +37,10 @@ class Pengambilan_air_model extends CI_Model
 			$i++;
 		}
 
+		if ($session['id_wilayah'] != null) {
+			$this->db->where('p.id_kota', $session['id_wilayah']);
+		}
+
 		if (isset($_POST['order'])) {
 			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
 		} else if (isset($this->order)) {
@@ -57,7 +62,12 @@ class Pengambilan_air_model extends CI_Model
 
 	public function count_all()
 	{
-		$this->db->from($this->table);
+		$session = $this->session->userdata();
+		$this->db->from($this->table)
+			->join('t_perusahaan p', 'p.id_perusahaan = a.id_perusahaan');
+		if ($session['id_wilayah'] != null) {
+			$this->db->where('p.id_kota', $session['id_wilayah']);
+		}
 		return $this->db->count_all_results();
 	}
 

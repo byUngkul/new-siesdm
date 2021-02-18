@@ -66,3 +66,15 @@
 		</select>
 	</div>
 </div>
+
+<div class="form-row  mb-2">
+	<label class="col-md-2 col-form-label col-form-label-sm mr-0 pr-0">Wilayah</label>
+	<div class="col-md-3 pl-0 ml-0">
+		<select name="id_wilayah" id="id_wilayah" class="form-control form-control-sm">
+			<option value="">Pilih</option>
+			<?php foreach($wilayah as $v): ?>
+			<option <?= (isset($user) && $user->id_wilayah == $v->id) ? 'selected' : '' ?> value="<?= $v->id ?>"><?= $v->nama_kota ?></option>
+			<?php endforeach; ?>
+		</select>
+	</div>
+</div>

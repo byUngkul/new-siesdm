@@ -41,7 +41,8 @@ class User_model extends CI_Model
 			'password' => $post["password"],
 			'id_pegawai' => $post["id_pegawai"],
 			'id_role' => $post["role"],
-			'id_bidang' => isset($post['id_bidang']) ? $post['id_bidang'] : null
+			'id_bidang' => isset($post['id_bidang']) ? $post['id_bidang'] : null,
+			'id_wilayah' => isset($post['id_wilayah']) ? $post['id_wilayah'] : null
 		];
 
 		$this->db->insert('t_users', $data);

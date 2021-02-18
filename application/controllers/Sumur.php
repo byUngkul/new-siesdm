@@ -85,6 +85,8 @@ class Sumur extends CI_Controller
 	{
 		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
+		$session = $this->session->userdata();
+		$param['wilayah'] = ($session['id_wilayah'] == null) ? '' : $session['id_wilayah'];
 
 		$data = [
 			'title' => 'Tambah Data [SUMUR]',
@@ -92,7 +94,7 @@ class Sumur extends CI_Controller
 			'child_menu' => 'sumur',
 			'js_file' => 'sumur/js_file',
 			'view' => 'sumur/tambah',
-			'perusahaan' => $this->perusahaan_model->get_alldata()->result_array(),
+			'perusahaan' => $this->perusahaan_model->get_alldata($param)->result_array(),
 			'jenis_sumur' => $this->jenis_sumur_model->get_alldata()->result_array(),
 		];
 
@@ -103,6 +105,8 @@ class Sumur extends CI_Controller
 	{
 		$this->acl->_check_not_login();
 		$this->acl->_cek_have_permission($this->uri->segments);
+		$session = $this->session->userdata();
+		$param['wilayah'] = ($session['id_wilayah'] == null) ? '' : $session['id_wilayah'];
 
 		$data = [
 			'title' => 'Edit Data [SUMUR]',
@@ -111,7 +115,7 @@ class Sumur extends CI_Controller
 			'js_file' => 'sumur/js_file',
 			'view' => 'sumur/edit',
 			'sumur' => $this->sumur_model->get_data_byid($id),
-			'perusahaan' => $this->perusahaan_model->get_alldata()->result_array(),
+			'perusahaan' => $this->perusahaan_model->get_alldata($param)->result_array(),
 			'jenis_sumur' => $this->jenis_sumur_model->get_alldata()->result_array(),
 		];
 
@@ -146,23 +150,31 @@ class Sumur extends CI_Controller
 	public function cetak_pdf()
 	{
 		$param = $this->input->get();
-
 		$data = $this->sumur_model->get_data_cetak($param);
-		ini_set("memory_limit", "512M");
-		ini_set('max_execution_time', 300);
-		set_time_limit(300);
-		$pdf = new \Mpdf\Mpdf([
-			'mode' => 'utf-8',
-			'format' => [210, 330],
-			'orientation' => 'L'
-		]);
-		$pdf->packTableData = true;
-		$view = $this->load->view('sumur/export/cetak', [
-			'data' => $data,
-			'kota' => ($param['wilayah'] != '') ? $this->kota_model->getById($param['wilayah']) : null 
-		], true);
-		$pdf->WriteHTML($view);
-		$pdf->Output();
+
+		ini_set("memory_limit", "1024M");
+		ini_set('max_execution_time', -1);
+
+		try {
+			$pdf = new \Mpdf\Mpdf([
+				'mode' => 'utf-8',
+				'format' => [210, 330],
+				'orientation' => 'L',
+			]);
+			$pdf->SetTitle('data sumur');
+			$pdf->packTableData = true;
+			$view = $this->load->view('sumur/export/cetak', [
+				'data' => $data,
+				'kota' => ($param['wilayah'] != '') ? $this->kota_model->getById($param['wilayah']) : null
+			], true);
+			// $pdf->debug = true;
+
+			$pdf->WriteHTML($view);
+			// op_start();
+			$pdf->Output();
+		} catch (\Mpdf\MpdfException $e) {
+			echo $e->getMessage();
+		}
 	}
 
 	public function cetak_excel()
@@ -172,7 +184,7 @@ class Sumur extends CI_Controller
 
 		$this->load->view('sumur/export/excel', [
 			'data' => $data,
-			'filter' => $param
+			'kota' => ($param['wilayah'] != '') ? $this->kota_model->getById($param['wilayah']) : null
 		]);
 	}
 }

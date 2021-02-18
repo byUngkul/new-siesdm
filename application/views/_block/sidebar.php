@@ -53,7 +53,7 @@
 				<div class="bg-white py-2 collapse-inner rounded">
 					<a class="collapse-item <?= (isset($child_menu) && $child_menu == 'ot') ? 'active' : '' ?>" href="#" title="Objek Tambang">Objek Tambang</a>
 					<a class="collapse-item <?= (isset($child_menu) && $child_menu == 'ktt') ? 'active' : '' ?>" href="#" title="Kepala Teknis Tambang">KTT</a>
-					<a class="collapse-item <?= (isset($child_menu) && $child_menu == 'jamrek') ? 'active' : '' ?>" href="#" title="Jaminan Reklamasi & Pasca Tambang">JAMREK & Pasca Tambang</a>
+					<a class="collapse-item <?= (isset($child_menu) && $child_menu == 'jamrek') ? 'active' : '' ?>" href="#" title="Jaminan Reklamasi & Pasca Tambang">JAMREK</a>
 					<a class="collapse-item <?= (isset($child_menu) && $child_menu == 'rkab') ? 'active' : '' ?>" href="#" title="Rencana Kerja & Anggaran Belanja Tambang">RKAB Tambang</a>
 				</div>
 			</div>

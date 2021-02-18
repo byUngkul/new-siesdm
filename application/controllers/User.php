@@ -10,6 +10,7 @@ class User extends CI_Controller
 		$this->load->model('user_model');
 		$this->load->model('pegawai_model');
 		$this->load->model('permission_m');
+		$this->load->model('kota_model');
 	}
 
 	public function index()
@@ -78,6 +79,7 @@ class User extends CI_Controller
 
 		$permit = json_encode($this->permission_m->get_data_permission());
 		$menu = json_encode($this->permission_m->get_data_menu());
+
 		$data = [
 			'title' => 'Tambah Data [USER]',
 			'parent_menu' => 'user',
@@ -86,7 +88,8 @@ class User extends CI_Controller
 			'roles' => $this->user_model->get_data_role(),
 			'pegawais' => $this->pegawai_model->get_all_data(),
 			'permissions' => $permit,
-			'menus' => $menu
+			'menus' => $menu,
+			'wilayah' => $this->kota_model->getData()
 		];
 
 		$this->load->view('layout', $data);
@@ -104,7 +107,8 @@ class User extends CI_Controller
 			'view' => 'user/edit',
 			'roles' => $this->user_model->get_data_role(),
 			'pegawais' => $this->pegawai_model->get_all_data(),
-			'user' => $this->user_model->getById($iduser)
+			'user' => $this->user_model->getById($iduser),
+			'wilayah' => $this->kota_model->getData()
 		];
 
 		$this->load->view('layout', $data);
@@ -175,6 +179,8 @@ class User extends CI_Controller
 					'password' => ($post["password"] == '') ? $password_lama['password'] : $this->acl->generate_password($post["password"]),
 					'id_pegawai' => $post["id_pegawai"],
 					'id_role' => $post["id_role"],
+					'id_bidang' => $post["id_bidang"],
+					'id_wilayah' => $post["id_wilayah"]
 				];
 
 				$this->user_model->update($post['id_user'], $data);

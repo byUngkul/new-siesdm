@@ -26,46 +26,26 @@ class Dashboard extends CI_Controller{
 		$this->load->view('layout', $data);
 	}
 
-	// public function index(){
-	// 	if($this->session->userdata('akses')=='1'){
-	// 		$wilayah = '';
-	// 		$hampir = $this->sumur_model->getEndSipa('1', $wilayah)->num_rows();
-	// 		$sudah = $this->sumur_model->getEndSipa('2', $wilayah)->num_rows();
-	// 	} elseif ($this->session->userdata('akses')=='5') {
-	// 		$wilayah = '1';
-	// 		$hampir = $this->sumur_model->getEndSipa('1', $wilayah)->num_rows();
-	// 		$sudah = $this->sumur_model->getEndSipa('2', $wilayah)->num_rows();
-	// 	} elseif ($this->session->userdata('akses')=='4') {
-	// 		$wilayah = '2';
-	// 		$hampir = $this->sumur_model->getEndSipa('1', $wilayah)->num_rows();
-	// 		$sudah = $this->sumur_model->getEndSipa('2', $wilayah)->num_rows();
-	// 	} elseif ($this->session->userdata('akses')=='6') {
-	// 		$wilayah = '3';
-	// 		$hampir = $this->sumur_model->getEndSipa('1', $wilayah)->num_rows();
-	// 		$sudah = $this->sumur_model->getEndSipa('2', $wilayah)->num_rows();
-	// 	} elseif ($this->session->userdata('akses')=='7') {
-	// 		$wilayah = '4';
-	// 		$hampir = $this->sumur_model->getEndSipa('1', $wilayah)->num_rows();
-	// 		$sudah = $this->sumur_model->getEndSipa('2', $wilayah)->num_rows();
-	// 	} 
-	// 	$data = [
-	// 		'title'          => 'SiESDM',
-	// 		'sub_title'      => 'Home',
-	// 		'page'           => 'Dashboard',
-	// 		'now'            => date('Y-m-d'),
-	// 		'content'        => 'home/index',
-	// 		'tera_hampir_habis'       => $this->sumur_model->getEndTera('1')->num_rows(),
-	// 		'tera_sudah_habis'       => $this->sumur_model->getEndTera('2')->num_rows(),
-	// 		'sipa_hampir_habis'            => $hampir,
-	// 		'sipa_sudah_habis'            => $sudah,
-	// 		'jml_sumur'      => $this->sumur_model->totalSumur(),
-	// 		'sumur_imbuh'      => $this->sumur_model->ambilJenisImbuhan()->num_rows(),
-	// 		'jml_perusahaan' => $this->perusahaan_model->totolPerusahaan()
-	// 	];
-	// 	//$selish = DATEDIFF($tempo->)
+	public function get_data_card()
+	{
+		$perusahaan = $this->perusahaan_model->count_all();
+		$sumur = $this->sumur_model->count_all();
+		$sipa_habis = $this->sumur_model->count_sipa_habis();
+		$sipa_akip = $this->sumur_model->count_sipa_aktip();
+		$tidak_berizin = $this->sumur_model->count_tidak_berizin();
 
-	// 	$this->load->view('template/template', $data);
-	// }
+		$data = [
+			'tot_perusahaan_abt' => $perusahaan,
+			'tot_sumur_abt' => $sumur,
+			'tot_sipa_habis' => $sipa_habis,
+			'tot_sipa_aktip' => $sipa_akip,
+			'tot_abt_tidak_berizin' => $tidak_berizin,
+			'tot_tambang_berizin' => 0,
+			'tot_tambang_tidak_berizin' => 0,
+		];
+
+		echo json_encode($data);
+	}
 
 	public function pengingat(){
 		$now = date('Y-m-d');

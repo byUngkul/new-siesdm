@@ -54,15 +54,15 @@ class Perusahaan_model extends CI_Model
 
 	public function get_alldata($param = null)
 	{
-		if ($param['wilayah'] != '') {
+		if (isset($param['wilayah']) && $param['wilayah'] != '') {
 			$this->db->where('id_kota', $param['wilayah']);
 		}
 
-		if ($param['status_modal'] != '') {
+		if (isset($param['status_modal']) && $param['status_modal'] != '') {
 			$this->db->where('status_modal', $param['status_modal']);
 		}
 
-		if ($param['tgl_pendataan'] != '') {
+		if (isset($param['tgl_pendataan']) && $param['tgl_pendataan'] != '') {
 			$this->db->where("DATE_FORMAT(created_at, '%d-%m-%Y') =", $param['tgl_pendataan']);
 		}
 		$this->db->select('*')

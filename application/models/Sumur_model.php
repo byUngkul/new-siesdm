@@ -30,12 +30,40 @@ class Sumur_model extends CI_Model
 
 	public function count_all()
 	{
+		$session = $this->session->userdata();
+		$this->db->from($this->table)
+			->join('t_perusahaan b', 'b.id_perusahaan = a.id_perusahaan', 'left');
+		if ($session['id_wilayah'] != null) {
+			$this->db->where('b.id_kota', $session['id_wilayah']);
+		}
+		return $this->db->count_all_results();
+	}
+
+	public function count_sipa_habis()
+	{
 		$this->db->from($this->table);
+		$this->db->where('DATEDIFF(tgl_ahir_sipa, CURRENT_DATE()) <= 90');
+		$this->db->where('DATEDIFF(tgl_ahir_sipa, CURRENT_DATE()) <= 0');
+		return $this->db->count_all_results();
+	}
+
+	public function count_sipa_aktip()
+	{
+		$this->db->from($this->table);
+		$this->db->where('DATEDIFF(tgl_ahir_sipa, CURRENT_DATE()) >= 90');
+		return $this->db->count_all_results();
+	}
+
+	public function count_tidak_berizin()
+	{
+		$this->db->from($this->table);
+		$this->db->where('status_izin', '2');
 		return $this->db->count_all_results();
 	}
 
 	function _get_query_data()
 	{
+		$session = $this->session->userdata();
 		$this->db->from($this->table);
 		$this->db->join('t_perusahaan b', 'b.id_perusahaan = a.id_perusahaan', 'left');
 		$this->db->join('t_jenis_sumur c', 'c.id = a.id_jenis_sumur', 'left');
@@ -57,6 +85,10 @@ class Sumur_model extends CI_Model
 				}
 			}
 			$i++;
+		}
+
+		if ($session['id_wilayah'] != null) {
+			$this->db->where('b.id_kota', $session['id_wilayah']);
 		}
 
 		if (isset($_POST['order'])) {
